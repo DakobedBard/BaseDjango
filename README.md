@@ -32,3 +32,10 @@ Uses gunicorn + nginx.
     ```
 
     Test it out at [http://localhost:1337](http://localhost:1337). No mounted folders. To apply changes, the image must be re-built.
+
+
+
+
+I AM TO DOWNLOAD THE MP3 OF THE YOUTUBE VIDEO THAT'S AMAZING
+
+NOW I SHOULD UPLOAD IT TO S3 OF COURSE!
