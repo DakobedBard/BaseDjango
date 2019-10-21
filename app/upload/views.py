@@ -31,25 +31,22 @@ def login(request):
         'form':form
     })
 
-
 def home(request):
     count = User.objects.count()
-
     return render(request, 'home.html', {
         'count': count
     })
 
-
 @login_required
 def secret_page(request):
-    return render(request, 'secret_page.html')
+    return render(request, 'account_details.html')
 
 
 class SecretPage(LoginRequiredMixin, TemplateView):
-    template_name = 'secret_page.html'
+    template_name = 'account_details.html'
 
-class Home(TemplateView):
-    template_name = 'upload_home.html'
+class Upload(TemplateView):
+    template_name = 'upload.html'
 
 def base(request):
     return render(request, "base.html")
@@ -68,3 +65,13 @@ def image_upload(request):
             "image_url": image_url
         })
     return render(request, "upload.html")
+
+@login_required
+def upload(request):
+    print("The users email is " + request.user.email)
+    '''
+    Alright I need to pass in the user
+
+    '''
+
+
