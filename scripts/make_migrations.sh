@@ -1,6 +1,3 @@
 #! /bin/bash
-
-
-
-sudo docker-compose exec djangoapp tabGenerator/manage.py makemigrations
+sudo docker exec djangoapp python manage.py makemigrations
 

@@ -1,2 +1,2 @@
 #! /bin/bash
-sudo docker-compose exec djangoapp tabGenerator/manage.py migrate --noinput
+sudo docker exec djangoapp python manage.py  migrate --noinput
