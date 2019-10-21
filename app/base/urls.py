@@ -10,6 +10,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/",views.login , name="login"),
     path('', views.Home.as_view(), name ='home'),
+    path('signup/',views.signup, name='signup')
 ]
 
 if bool(settings.DEBUG):
