@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from django.views.generic import TemplateView, ListView, CreateView
 from django.contrib.auth.forms import UserCreationForm
-
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            form.save()
             return redirect('home')
     else:
         form = UserCreationForm()
@@ -16,8 +18,38 @@ def signup(request):
         'form':form
     })
 
+def home(request):
+    count = User.objects.count()
+    return render(request, 'upload_home.html', {
+        'count': count
+    })
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {
+        'form': form
+    })
+
+
+@login_required
+def secret_page(request):
+    return render(request, 'secret_page.html')
+
+
+class SecretPage(LoginRequiredMixin, TemplateView):
+    template_name = 'secret_page.html'
+
+
+
 class Home(TemplateView):
-    template_name = 'home.html'
+    template_name = 'upload_home.html'
 
 def base(request):
     return render(request, "base.html")
