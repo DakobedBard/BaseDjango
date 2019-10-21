@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="eab4d012-fd58-44e6-b1d8-76b2f08727f5" name="Default Changelist" comment="" />
+    <list default="true" id="eab4d012-fd58-44e6-b1d8-76b2f08727f5" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/upload/templates/base.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/upload/templates/home.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/upload/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/BaseDjango.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BaseDjango.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/hello_django/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/hello_django/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/upload/templates/upload.html" beforeDir="false" afterPath="$PROJECT_DIR$/app/upload/templates/upload.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/upload/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/upload/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1SV1ILhIdiai0lxVIiKW14dYoGM" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/staticfiles/css" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/staticfiles/css" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/scripts" />
     </key>
@@ -42,5 +59,16 @@
       <updated>1571633867423</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
