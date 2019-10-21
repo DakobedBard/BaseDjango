@@ -9,4 +9,5 @@ tabGenerator/tabGenerator/__pycache__/
 
 .idea/*
 
+/venv/*
 
