@@ -1,0 +1,10 @@
+__pycache__/
+tabGenerator/tabGenerator/__pycache__/
+*.pyc
+*.egg-info/
+.tox/
+.coverage*
+.pytest_cache/
+
+
+
