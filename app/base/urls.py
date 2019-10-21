@@ -1,16 +1,19 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
 import upload.views as views
 
 urlpatterns = [
-    path("", views.image_upload, name="upload"),
     path("admin/", admin.site.urls),
     path("login/",views.login , name="login"),
-    path('', views.Home.as_view(), name ='home'),
-    path('signup/',views.signup, name='signup')
+    path("home/", views.home, name ='home'),
+   # path('home', views.Home.as_view(), name ='homeClassView'),
+    path('signup/',views.signup, name='signup'),
+    path('upload/',views.image_upload, name='upload'),
+    path('accounts', include('django.contrib.auth.urls'))
+
 ]
 
 if bool(settings.DEBUG):

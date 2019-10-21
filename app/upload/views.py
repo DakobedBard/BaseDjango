@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from django.views.generic import TemplateView, ListView, CreateView
+#from base.forms.userCreationForm import UserCreationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,14 +19,7 @@ def signup(request):
         'form':form
     })
 
-def home(request):
-    count = User.objects.count()
-    return render(request, 'upload_home.html', {
-        'count': count
-    })
-
-
-def signup(request):
+def login(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -33,8 +27,16 @@ def signup(request):
             return redirect('home')
     else:
         form = UserCreationForm()
-    return render(request, 'registration/signup.html', {
-        'form': form
+    return render(request, "registration/login.html", {
+        'form':form
+    })
+
+
+def home(request):
+    count = User.objects.count()
+
+    return render(request, 'home.html', {
+        'count': count
     })
 
 
@@ -46,8 +48,6 @@ def secret_page(request):
 class SecretPage(LoginRequiredMixin, TemplateView):
     template_name = 'secret_page.html'
 
-
-
 class Home(TemplateView):
     template_name = 'upload_home.html'
 
@@ -55,7 +55,7 @@ def base(request):
     return render(request, "base.html")
 
 def login(request):
-    return render(request, "login.html")
+    return render(request, "registration/login.html")
 
 def image_upload(request):
     if request.method == "POST" and request.FILES["image_file"]:
