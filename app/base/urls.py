@@ -12,7 +12,8 @@ urlpatterns = [
    # path('home', views.Home.as_view(), name ='homeClassView'),
     path('signup/',views.signup, name='signup'),
     path('upload/',views.image_upload, name='upload'),
-    path('accounts', include('django.contrib.auth.urls'))
+    path('accounts', include('django.contrib.auth.urls')),
+    path('secret/', views.secret_page, name='account')
 
 ]
 
