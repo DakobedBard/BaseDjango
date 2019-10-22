@@ -6,7 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-
+from upload.s3Client import s3Client
+from tab_generator.audio.youtube_download import download
+from django import forms
 def validate_link(link):
     '''
     :param link:     URL of youtube video whose audio I'd like to download and extract..
@@ -16,19 +18,33 @@ def validate_link(link):
     '''
 
 
-def tabs(request, *args, **kwargs):
-    context = {'method':request.method}
-    return render(request, "slowdown.html", context)
+class LinkForm(forms.Form):
+    youtube_link = forms.CharField(label="youtubelink", max_length=200)
 
+    def cleanLinkData(self):
+        data = self.cleaned_data['youtube_link']
+        return data
 
 
 def slow_down(request, *args, **kwargs):
     if request.method == "POST":
         print("The request is " + request.method)
         count = User.objects.count()
-        context = {'method': request.method,'count':count}
-        return render(request, "slowdown.html", context)
+        form = LinkForm(request.POST)
+        print("The request is of type")
+        print(str(type(request)))
+        #form.youtube_link = request.
+        if form.is_valid():
+            link = form.cleanLinkData()
+        else:
+            link = "Invalid Link"
+        context = {'method': request.method,'link':link}
+        #download()
+        #s3 = s3Client('djangobase', request.user)
 
-    count = User.objects.count()
-    context = {'method': request.method, 'count': count}
-    return render(request, 'slowdown.html', context)
+        return render(request, "slowdown.html", context)
+    else:
+        form = LinkForm
+        count = User.objects.count()
+        context = {'method': request.method, 'form': form}
+        return render(request, 'slowdown.html', context)

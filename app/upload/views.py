@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from django.views.generic import TemplateView, ListView, CreateView
-#from base.forms.userCreationForm import UserCreationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from upload.s3Client import  s3Client
-from upload.models import Document
+from upload.s3Client import s3Client
+
 from django.urls import reverse_lazy
-from upload.models import Document
+
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
