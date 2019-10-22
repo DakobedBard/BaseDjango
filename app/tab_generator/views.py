@@ -38,7 +38,7 @@ def latestFileUpdate(directory=None):
 
 
 def list(request, *args, **kwargs):
-    docuemnts = Document.objects.all()
+    docuemnts = Document.objects.filter(user=request.user)
     context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
     return render(request, 'list.html', context )
 def slow_down(request, *args, **kwargs):
