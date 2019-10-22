@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <form action="{% url "slow" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    YouTube Link:<br>
+    <input type="text" name="youtubelink"><br>
+    <input type="submit" value="submit" />
+  </form>
+  {% if method == 'POST' %}
+    <strong>Only POST Users Registered</strong> {{method }}
+  {% else %}
+  {% endif %}
+
+{% endblock %}

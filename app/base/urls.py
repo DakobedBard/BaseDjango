@@ -15,7 +15,7 @@ urlpatterns = [
     path('upload_image/',upload.views.image_upload, name='upload'),
     path('accounts', include('django.contrib.auth.urls')),
     path('secret/', upload.views.secret_page, name='account'),
-    path('tabs/', tab_generator.views.youtube_dl, name='youtube_dl')
+    path('tabs/', tab_generator.views.slow_down, name='slow')
 ]
 
 if bool(settings.DEBUG):
