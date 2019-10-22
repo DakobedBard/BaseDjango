@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect
 from django.core.files.storage import FileSystemStorage
 from django.views.generic import TemplateView, ListView, CreateView
-#from base.forms.userCreationForm import UserCreationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
-from upload.s3Client import  s3Client
-from upload.models import Document
+from upload.s3Client import s3Client
+import os
 from django.urls import reverse_lazy
-from upload.models import Document
+
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -51,6 +50,7 @@ class Upload(TemplateView):
     template_name = 'upload.html'
 
 
+
 def image_upload(request):
     if request.method == "POST" and request.FILES["image_file"]:
         image_file = request.FILES["image_file"]
@@ -67,6 +67,8 @@ def image_upload(request):
         s3 = s3Client('basedjango', request.user )
 
         s3.upload_file(image_url)
+
+
 
         return render(request, "upload.html", {
             "image_url": image_url

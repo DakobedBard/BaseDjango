@@ -5,3 +5,4 @@ class Document(models.Model):
     s3Path = models.CharField(max_length=500, default='file.txt')
     user = models.CharField(max_length=50,default="Charles")
     bucket=models.CharField(max_length=50, default="basedjango")
+    extension = models.CharField(max_length=50, default=".txt")
