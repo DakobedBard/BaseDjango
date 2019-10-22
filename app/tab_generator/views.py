@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from upload.s3Client import s3Client
 from tab_generator.audio.youtube_download import download
 from django import forms
+import os
 def validate_link(link):
     '''
     :param link:     URL of youtube video whose audio I'd like to download and extract..
@@ -25,6 +26,14 @@ class LinkForm(forms.Form):
         data = self.cleaned_data['youtube_link']
         return data
 
+def latestFileUpdate(directory=None):
+    '''
+    :return: Returns a file path to the most recenly updated file in the current directory
+    '''
+    files = os.listdir()
+    modified_file = max(files, key=os.path.getctime)
+    print("The most recently mod file " + modified_file)
+    return modified_file
 
 def slow_down(request, *args, **kwargs):
     if request.method == "POST":
@@ -33,9 +42,13 @@ def slow_down(request, *args, **kwargs):
         form = LinkForm(request.POST)
         print("The request is of type")
         print(str(type(request)))
-        #form.youtube_link = request.
+
         if form.is_valid():
             link = form.cleanLinkData()
+            download(link)
+            uploadFile = latestFileUpdate()
+            s3 = s3Client('basedjango',request.user)
+            s3.upload_file(uploadFile,"youtubeFile")
         else:
             link = "Invalid Link"
         context = {'method': request.method,'link':link}

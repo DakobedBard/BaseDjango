@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from upload.s3Client import s3Client
-
+import os
 from django.urls import reverse_lazy
 
 def signup(request):
@@ -50,6 +50,7 @@ class Upload(TemplateView):
     template_name = 'upload.html'
 
 
+
 def image_upload(request):
     if request.method == "POST" and request.FILES["image_file"]:
         image_file = request.FILES["image_file"]
@@ -66,6 +67,8 @@ def image_upload(request):
         s3 = s3Client('basedjango', request.user )
 
         s3.upload_file(image_url)
+
+
 
         return render(request, "upload.html", {
             "image_url": image_url

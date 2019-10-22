@@ -29,7 +29,7 @@ class s3Client:
         try:
             with open("/usr/src/app/" +file_name, "rb") as f:
                 print("I open the file " + str(file_name))
-                s3_client.upload_fileobj(f, self.bucket, file_name)
+                s3_client.upload_fileobj(f, self.bucket, "youtube.mp3")
                 document = Document(s3Path=file_name,user=self.username,bucket=self.bucket)
                 document.save()
         except ClientError as e:
