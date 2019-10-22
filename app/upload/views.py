@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from upload.s3Client import  s3Client
 from upload.models import Document
 from django.urls import reverse_lazy
-
+from upload.models import Document
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -64,7 +64,7 @@ def image_upload(request):
         print("The image file is " + image_url_string)
         print("The type of the image url is ")
         print(type(image_url_string))
-        s3 = s3Client('basedjango', request.user.email )
+        s3 = s3Client('basedjango', request.user )
 
         s3.upload_file(image_url)
 
