@@ -6,7 +6,7 @@ tabGenerator/tabGenerator/__pycache__/
 .coverage*
 .pytest_cache/
 
-.app/mediafiles/*
+app/mediafiles/*
 
 
 .idea/*

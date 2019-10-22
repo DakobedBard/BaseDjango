@@ -14,13 +14,15 @@ RUN apk update \
 RUN apk add ffmpeg
 # install dependencies
 RUN pip install --upgrade pip
+
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 run pip install --upgrade youtube-dl
 run pip install --upgrade ipython3
-# copy entrypoint.sh
-COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
+run pip install --upgrade awscli
 
+
+COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 # copy project
 COPY . /usr/src/app/
 

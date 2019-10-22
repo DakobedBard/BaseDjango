@@ -3,9 +3,13 @@ import boto3
 import botocore
 import logging
 from botocore.exceptions import ClientError
+import os
+
 class s3Client:
     def __init__(self, bucketname, username):
         self.bucket = bucketname
+
+
 
     def upload_file(self,file_name, object_name=None):
         """Upload a file to an S3 bucket
