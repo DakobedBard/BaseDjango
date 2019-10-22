@@ -4,11 +4,11 @@ import botocore
 import logging
 from botocore.exceptions import ClientError
 import os
-
+from upload.models import Document
 class s3Client:
     def __init__(self, bucketname, username):
         self.bucket = bucketname
-
+        self.username = username
 
 
     def upload_file(self,file_name, object_name=None):
@@ -28,9 +28,13 @@ class s3Client:
         s3_client = boto3.client('s3')
         try:
             with open("/usr/src/app/" +file_name, "rb") as f:
-                s3_client.upload_fileobj(f, self.bucket, "OBJECT_NAME")
+                print("I open the file " + str(file_name))
+                s3_client.upload_fileobj(f, self.bucket, file_name)
+                document = Document(s3Path=file_name,user=self.username,bucket=self.bucket)
+                document.save()
         except ClientError as e:
             logging.error(e)
+            print(e)
             return False
         return True
 

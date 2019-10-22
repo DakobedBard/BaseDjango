@@ -8,6 +8,8 @@ tabGenerator/tabGenerator/__pycache__/
 
 app/mediafiles/*
 
+app/upload/migrations/*
+
 .idea/*
 
 /venv/*
