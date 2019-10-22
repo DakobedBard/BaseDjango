@@ -18,6 +18,7 @@ urlpatterns = [
     path('tabs/', tab_generator.views.slow_down, name='slow'),
     path('list/',tab_generator.views.list, name='list' ),
     path('tabs/<uuid:pk>/list', tab_generator.views.slow_down, name='listTabs'),
+    path('player', tab_generator.views.player, name='player'),
 
 
 

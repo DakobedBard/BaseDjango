@@ -27,6 +27,10 @@ class LinkForm(forms.Form):
         data = self.cleaned_data['youtube_link']
         return data
 
+def player(request, *args, **kwargs):
+    context = {}
+    return render(request, 'player.html', context)
+
 def latestFileUpdate(directory=None):
     '''
     :return: Returns a file path to the most recenly updated file in the current directory
