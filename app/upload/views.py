@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from upload.s3Client import  s3Client
-
+from upload.models import Document
+from django.urls import reverse_lazy
 
 def signup(request):
     if request.method == 'POST':
@@ -79,5 +80,4 @@ def upload(request):
     Alright I need to pass in the user
 
     '''
-
 
