@@ -6,6 +6,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from upload.s3Client import  s3Client
+from upload.models import Document
+from django.urls import reverse_lazy
 
 def signup(request):
     if request.method == 'POST':
@@ -31,31 +34,22 @@ def login(request):
         'form':form
     })
 
-
 def home(request):
     count = User.objects.count()
-
     return render(request, 'home.html', {
         'count': count
     })
 
-
 @login_required
 def secret_page(request):
-    return render(request, 'secret_page.html')
-
+    return render(request, 'account_details.html')
 
 class SecretPage(LoginRequiredMixin, TemplateView):
-    template_name = 'secret_page.html'
+    template_name = 'account_details.html'
 
-class Home(TemplateView):
-    template_name = 'upload_home.html'
+class Upload(TemplateView):
+    template_name = 'upload.html'
 
-def base(request):
-    return render(request, "base.html")
-
-def login(request):
-    return render(request, "registration/login.html")
 
 def image_upload(request):
     if request.method == "POST" and request.FILES["image_file"]:
@@ -63,8 +57,27 @@ def image_upload(request):
         fs = FileSystemStorage()
         filename = fs.save(image_file.name, image_file)
         image_url = fs.url(filename)
-        print(image_url)
+        image_url_string = str(image_url)
+
+        print("The type of the image url is " )
+        print(type(image_url))
+        print("The image file is " + image_url_string)
+        print("The type of the image url is ")
+        print(type(image_url_string))
+        s3 = s3Client('basedjango', request.user.email )
+
+        s3.upload_file(image_url)
+
         return render(request, "upload.html", {
             "image_url": image_url
         })
     return render(request, "upload.html")
+
+@login_required
+def upload(request):
+    print("The users email is " + request.user.email)
+    '''
+    Alright I need to pass in the user
+
+    '''
+

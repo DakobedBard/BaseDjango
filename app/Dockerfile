@@ -11,15 +11,18 @@ ENV PYTHONUNBUFFERED 1
 # install psycopg2 dependencies
 RUN apk update \
     && apk add postgresql-dev gcc python3-dev musl-dev
-
+RUN apk add ffmpeg
 # install dependencies
 RUN pip install --upgrade pip
+
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
-
-# copy entrypoint.sh
+run pip install --upgrade youtube-dl
+run pip install --upgrade ipython3
+run pip install --upgrade awscli
+run pip install pytest
+COPY ./runtests.py /usr/src/app/runtests.py
 COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
-
 # copy project
 COPY . /usr/src/app/
 
