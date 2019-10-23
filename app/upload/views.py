@@ -67,13 +67,15 @@ def image_upload(request):
         s3 = s3Client('basedjango', request.user )
 
         s3.upload_file(image_url)
-
-
-
         return render(request, "upload.html", {
             "image_url": image_url
         })
     return render(request, "upload.html")
+
+def file_download(request, *args, **kwargs):
+    s3 = s3Client('basedjango', request.user)
+    s3.download("youtube.mp3")
+    return render(request, "home.html")
 
 @login_required
 def upload(request):
