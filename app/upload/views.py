@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from upload.s3Client import s3Client
 from base.ec2Client import ec2Client
+from upload.models import EC2Instance
 import os
 from django.urls import reverse_lazy
 
@@ -80,15 +81,25 @@ def file_download(request, *args, **kwargs):
 
 def launch_instance(request, *args, **kwargs):
     ec2 = ec2Client("TabGenerator",request.user)
-    instances = ec2.launch_instance('t2.micro','ec2-key-pair')
-    context = {}
+    ec2.launch_instance('t2.micro','ec2-key-pair')
+    instances = EC2Instance.objects.all()
+
+    context = {"instances":instances}
     return render(request, "instances.html", context)
 
-def terminate(request):
-    return render(request, "instances.html")
+def terminate(request,instanceID ):
+    instances = EC2Instance.objects.all()
+    context = {"instances":instances}
+    ec2 = ec2Client("TabGenerator", request.user)
+    ec2.terminate_instance(instanceID)
+    return render(request, "instances.html", context)
 
-def instances(request, *args, **kwargs):
-    return render(request, "instances.html")
+
+def list_instances(request, *args, **kwargs):
+    instances = EC2Instance.objects.all()
+    length = len(instances)
+    context = {"instances":instances, "length":length}
+    return render(request, "instances.html", context)
 
 
 @login_required

@@ -21,7 +21,8 @@ urlpatterns = [
     path('player', tab_generator.views.player, name='player'),
     path('download/', upload.views.file_download, name='download'),
     path('launch/', upload.views.launch_instance, name='launch'),
-    path('terminate/<uuid:pk>', upload.views.terminate, name='launch')
+    path('terminate/<instanceID>', upload.views.terminate, name='launch'),
+    path('list_instances/', upload.views.list_instances, name ='list_instances')
 ]
 
 if bool(settings.DEBUG):

@@ -34,6 +34,9 @@ class ec2Client:
     def terminate_instance(self, instanceID):
         ec2 = boto3.resource('ec2', region_name=self.REGION)
         ec2.instances.filter(InstanceIds=[instanceID]).terminate()
+        #instance_model = EC2Instance.__class__.objects.get(instance_ID=instanceID)
+        instance_model = EC2Instance.objects.filter(instance_ID=instanceID)
+        instance_model.delete()
 
     def stop_instance(self, instanceID):
         ec2 = boto3.resource('ec2', region_name=self.REGION)
