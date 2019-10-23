@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+<br>
+There are {{ length }} instances in the database <br>
 
+
+{% for instance in instances %}
+    {{ instance.instance_ID }} <br>
+{% endfor %}
 
 {% endblock %}
