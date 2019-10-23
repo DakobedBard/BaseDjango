@@ -11,5 +11,7 @@ class EC2Instance(models.Model):
     '''
     There is a default field with name "id" which is auto increment..
     '''
-    instance_type = models.CharField(max_length=50)
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    instance_ID = models.CharField(max_length=30)
+    application = models.CharField(max_length=30)
+    user = models.CharField(max_length=50, default="BillyStrings@gmail.com")

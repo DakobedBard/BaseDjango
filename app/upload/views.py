@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from upload.s3Client import s3Client
+from base.ec2Client import ec2Client
 import os
 from django.urls import reverse_lazy
 
@@ -76,6 +77,19 @@ def file_download(request, *args, **kwargs):
     s3 = s3Client('basedjango', request.user)
     s3.download("youtube.mp3")
     return render(request, "home.html")
+
+def launch_instance(request, *args, **kwargs):
+    ec2 = ec2Client("TabGenerator",request.user)
+    instances = ec2.launch_instance('t2.micro','ec2-key-pair')
+    context = {}
+    return render(request, "instances.html", context)
+
+def terminate(request):
+    return render(request, "instances.html")
+
+def instances(request, *args, **kwargs):
+    return render(request, "instances.html")
+
 
 @login_required
 def upload(request):

@@ -19,7 +19,9 @@ urlpatterns = [
     path('list/',tab_generator.views.list, name='list' ),
     path('tabs/<uuid:pk>/list', tab_generator.views.slow_down, name='listTabs'),
     path('player', tab_generator.views.player, name='player'),
-    path('download/', upload.views.file_download, name='download')
+    path('download/', upload.views.file_download, name='download'),
+    path('launch/', upload.views.launch_instance, name='launch'),
+    path('terminate/<uuid:pk>', upload.views.terminate, name='launch')
 ]
 
 if bool(settings.DEBUG):

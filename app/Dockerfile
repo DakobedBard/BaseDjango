@@ -18,7 +18,7 @@ RUN pip install --upgrade pip
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 run pip install --upgrade youtube-dl
-run pip install --upgrade ipython3
+run pip install --upgrade ipython
 run pip install --upgrade awscli
 run pip install pytest
 COPY ./runtests.py /usr/src/app/runtests.py
