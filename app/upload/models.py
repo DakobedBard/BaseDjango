@@ -6,3 +6,10 @@ class Document(models.Model):
     user = models.CharField(max_length=50,default="Charles")
     bucket=models.CharField(max_length=50, default="basedjango")
     extension = models.CharField(max_length=50, default=".txt")
+
+class EC2Instance(models.Model):
+    '''
+    There is a default field with name "id" which is auto increment..
+    '''
+    instance_type = models.CharField(max_length=50)
+

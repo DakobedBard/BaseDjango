@@ -1,0 +1,4 @@
+To SSH into an instance... I am goign to have to write a bash script that takes an IP address as a command line argument
+and will just use the .pem file that I already have on hand.  I will make it usable elsewhere as well..
+
+ssh -i ${HOME}/.ssh/ec2-key-pair.pem  $1
