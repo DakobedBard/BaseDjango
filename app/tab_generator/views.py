@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from upload.s3Client import s3Client
 from tab_generator.audio.youtube_download import download
 from django import forms
+from upload.models import Document
 import os
 def validate_link(link):
     '''
@@ -26,6 +27,10 @@ class LinkForm(forms.Form):
         data = self.cleaned_data['youtube_link']
         return data
 
+def player(request, *args, **kwargs):
+    context = {}
+    return render(request, 'player.html', context)
+
 def latestFileUpdate(directory=None):
     '''
     :return: Returns a file path to the most recenly updated file in the current directory
@@ -35,6 +40,11 @@ def latestFileUpdate(directory=None):
     print("The most recently mod file " + modified_file)
     return modified_file
 
+
+def list(request, *args, **kwargs):
+    docuemnts = Document.objects.filter(user=request.user)
+    context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
+    return render(request, 'list.html', context )
 def slow_down(request, *args, **kwargs):
     if request.method == "POST":
         print("The request is " + request.method)
