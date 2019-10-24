@@ -3,8 +3,25 @@
 
 There are {{ count }} number of documents in the DB
 <br>
-{% for document in documents %}
-    {{document.s3Path}} <br>
-{% endfor %}
+
+<form method="post" novalidate>
+  {% csrf_token %}
+<!--  {{ form }}-->
+  {% for item in documents %}
+        <input type="checkbox" value="{{item.id}}" name="my_object">
+        {{ item }}
+        <br>
+    {% endfor %}
+  <button type="submit">Submit</button>
+</form>
+
+<!--    <form action="" method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <table>-->
+<!--      {{ form.as_table }}-->
+<!--    </table>-->
+<!--    <input type="submit" value="Submit">-->
+<!--  </form>-->
+
 
 {% endblock %}

@@ -108,18 +108,6 @@ def list_instances(request, *args, **kwargs):
 
 from upload.models import Document
 
-def list(request, *args, **kwargs):
-    docuemnts = Document.objects.filter(user=request.user)
-    context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
-
-    # s3 = s3Client('basedjango', request.user )
-    # s3.upload_file(image_url)
-
-    return render(request, 'list.html', context )
-
-
-
-
 
 @login_required
 def upload(request):
@@ -128,4 +116,54 @@ def upload(request):
     Alright I need to pass in the user
 
     '''
+from django import forms
+
+class AudioFilesForm(forms.Form):
+    users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                      label="Notify and subscribe users to this post:")
+    def __init__(self, *args, **kwargs):
+        files = kwargs.pop('files')
+        super(AudioFilesForm, self).__init__(*args, **kwargs)
+        counter = 1
+        for q in files:
+            self.fields['files-' + str(counter)] = forms.CharField(label='file')
+            counter += 1
+
+def list(request, *args, **kwargs):
+    docuemnts = Document.objects.filter(user=request.user)
+    # context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
+    #
+
+    document_files =  docuemnts.values('s3Path')
+
+    # context['form'] = form
+    # # s3 = s3Client('basedjango', request.user )
+    # # s3.upload_file(image_url)
+    context = {}
+    context['documents'] = document_files
+    if request.method == 'POST':
+        form = AudioFilesForm(request.POST, files=docuemnts)
+        #form = MyForm()
+        context['form'] = form
+        if form.is_valid():
+            pass  # does nothing, just trigger the validation
+    else:
+        form = AudioFilesForm(files=docuemnts)
+        #form = MyForm()
+        context['form'] = form
+    return render(request, 'list.html',context)
+
+
+
+class MyForm(forms.Form):
+    my_object = forms.MultipleChoiceField(
+        widget=forms.CheckboxSelectMultiple,
+    )
+
+
+
+
+from django import forms
+
+
 
