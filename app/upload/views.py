@@ -162,8 +162,8 @@ def list(request, *args, **kwargs):
                         filepath = path.split("/")[-1]
                         print("The filepath is " + filepath)
                         is_deleted = s3.delete(filepath)
-                        # if is_deleted:
-                        #     document.delete()
+                        print("keys")
+                        Document.objects.filter(s3Path = document['s3Path']).delete()
 
             context['choices'] = booleans
 
