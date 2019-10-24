@@ -59,9 +59,13 @@ class s3Client:
         return True
 
     def delete(self, object_name):
-        s3 = boto3.client('s3')
+        s3 = boto3.resource('s3')
+        #return s3.get_bucket_acl(Bucket='basedjango')
         try:
-            s3.delete_object(Bucket=self.bucket, Key=object_name)
+            obj = s3.Object(self.bucket, object_name)
+            print("The objec name " + object_name)
+            obj.delete()
+            #s3.delete_object(Bucket=self.bucket, Key=object_name)
         except ClientError as e:
             logging.error(e)
             print(e)
@@ -71,6 +75,8 @@ class s3Client:
 
     def setBucketName(self, bucketname):
         self.bucket = bucketname
+        client = boto3.client('iam')
+
 
 
 

@@ -2,3 +2,6 @@ To SSH into an instance... I am goign to have to write a bash script that takes 
 and will just use the .pem file that I already have on hand.  I will make it usable elsewhere as well..
 
 ssh -i ${HOME}/.ssh/ec2-key-pair.pem  $1
+
+I will have to decide how to manage the IAM roles but I did add a python script to upload/aws/attatch_policy
+

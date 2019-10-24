@@ -147,13 +147,24 @@ def list(request, *args, **kwargs):
         #form = MyForm()
         context['form'] = form
         #context['selections']
-        s3 = s3Client('djangobase', request.user)
+        s3 = s3Client('basedjango', request.user)
         if form.is_valid():
             fields = form.fields
+
             booleans = []
-            for field in fields:
+            for index, field in enumerate(fields):
                 if form.cleaned_data[field]:
-                    s3.delete(field)
+                    document = document_files[index]
+                    keys =  document.keys()
+
+                    for key in keys:
+                        path = document[key]
+                        filepath = path.split("/")[-1]
+                        print("The filepath is " + filepath)
+                        is_deleted = s3.delete(filepath)
+                        # if is_deleted:
+                        #     document.delete()
+
             context['choices'] = booleans
 
     else:
