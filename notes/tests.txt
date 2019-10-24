@@ -1,0 +1,10 @@
+
+
+
+Tests to run...
+
+Create two users.
+each will upload an audio file to S3..
+
+
+Create a view where it displays each song of a user with a checkbox..

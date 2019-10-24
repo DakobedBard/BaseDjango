@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+
+There are {{ count }} number of documents in the DB
+<br>
+{% for document in documents %}
+    {{document.s3Path}} <br>
+{% endfor %}
+
+{% endblock %}

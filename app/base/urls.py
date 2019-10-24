@@ -10,19 +10,38 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/",upload.views.login , name="login"),
     path("home/", upload.views.home, name ='home'),
-    path('upload', upload.views.Upload.as_view(), name ='upload_file'),
+
     path('signup/',upload.views.signup, name='signup'),
-    path('upload_image/',upload.views.image_upload, name='upload'),
+
     path('accounts', include('django.contrib.auth.urls')),
     path('secret/', upload.views.secret_page, name='account'),
+
+    # Audio
     path('tabs/', tab_generator.views.slow_down, name='slow'),
     path('list/',tab_generator.views.list, name='list' ),
     path('tabs/<uuid:pk>/list', tab_generator.views.slow_down, name='listTabs'),
+
     path('player', tab_generator.views.player, name='player'),
-    path('download/', upload.views.file_download, name='download'),
+    # Upload
+    path('upload_image/', upload.views.image_upload, name='upload'),
+    path('upload', upload.views.Upload.as_view(), name='upload_file'),
+    # AWS paths
+
+    # EC2
     path('launch/', upload.views.launch_instance, name='launch'),
     path('terminate/<instanceID>', upload.views.terminate, name='launch'),
-    path('list_instances/', upload.views.list_instances, name ='list_instances')
+    path('list_instances/', upload.views.list_instances, name='list_instances'),
+
+    # REST API paths
+
+    path('create_tab/', tab_generator.views.create_guitar_tab_view, name='create'),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+
+    # S3 Audio Files..
+    path('list_files/', upload.views.list, name='list_files'),
+
+
+
 ]
 
 if bool(settings.DEBUG):

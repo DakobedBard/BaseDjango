@@ -11,7 +11,7 @@ class s3Client:
         self.username = username
 
 
-    def upload_file(self,file_name, object_name=None):
+    def upload_file(self,file_name, object_name):
         """Upload a file to an S3 bucket
         :param file_name: File to upload
         :param bucket: Bucket to upload to
@@ -27,7 +27,7 @@ class s3Client:
         try:
             with open("/usr/src/app/" +file_name, "rb") as f:
                 print("I open the file " + str(file_name))
-                s3_client.upload_fileobj(f, self.bucket, "youtube.mp3")
+                s3_client.upload_fileobj(f, self.bucket, object_name)
                 document = Document(s3Path=file_name,user=self.username,bucket=self.bucket)
                 document.save()
         except ClientError as e:
@@ -36,6 +36,12 @@ class s3Client:
             return False
         return True
 
+    def upload_directory(self, directory_name, object_name):
+
+
+        pass
+
+
     def download(self, object_name ):
         """Upload a file to an S3 bucket
         :param file_name: File to upload
@@ -43,7 +49,6 @@ class s3Client:
         :param object_name: S3 object name. If not specified then file_name is used
         :return: True if file was downloaded, else False
         """
-
         s3 = boto3.client('s3')
         try:
             s3.download_file(self.bucket, object_name, 'mediafiles/download.mp3')
@@ -53,5 +58,19 @@ class s3Client:
             return False
         return True
 
+    def delete(self, object_name):
+        s3 = boto3.client('s3')
+        try:
+            s3.download_file(self.bucket, object_name)
+        except ClientError as e:
+            logging.error(e)
+            print(e)
+            return False
+        return True
+
+
     def setBucketName(self, bucketname):
         self.bucket = bucketname
+
+
+
