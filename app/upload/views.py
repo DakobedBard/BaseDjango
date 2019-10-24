@@ -119,14 +119,14 @@ def upload(request):
 from django import forms
 
 class AudioFilesForm(forms.Form):
-    users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                      label="Notify and subscribe users to this post:")
     def __init__(self, *args, **kwargs):
         files = kwargs.pop('files')
         super(AudioFilesForm, self).__init__(*args, **kwargs)
         counter = 1
         for q in files:
-            self.fields['files-' + str(counter)] = forms.CharField(label='file')
+            #self.fields['files-' + str(counter)] = forms.CharField(label='file')
+            self.fields[str(q)] = forms.BooleanField(required=False)
+
             counter += 1
 
 def list(request, *args, **kwargs):
@@ -141,24 +141,40 @@ def list(request, *args, **kwargs):
     # # s3.upload_file(image_url)
     context = {}
     context['documents'] = document_files
+    selections = []
     if request.method == 'POST':
-        form = AudioFilesForm(request.POST, files=docuemnts)
+        form = AudioFilesForm(request.POST, files=document_files)
         #form = MyForm()
         context['form'] = form
+        #context['selections']
+        s3 = s3Client('basedjango', request.user)
         if form.is_valid():
-            pass  # does nothing, just trigger the validation
+            fields = form.fields
+
+            booleans = []
+            for index, field in enumerate(fields):
+                if form.cleaned_data[field]:
+                    document = document_files[index]
+                    keys =  document.keys()
+
+                    for key in keys:
+                        path = document[key]
+                        filepath = path.split("/")[-1]
+                        print("The filepath is " + filepath)
+                        is_deleted = s3.delete(filepath)
+                        print("keys")
+                        Document.objects.filter(s3Path = document['s3Path']).delete()
+
+            context['choices'] = booleans
+
     else:
-        form = AudioFilesForm(files=docuemnts)
-        #form = MyForm()
+        form = AudioFilesForm(files=document_files)
+
         context['form'] = form
     return render(request, 'list.html',context)
 
 
 
-class MyForm(forms.Form):
-    my_object = forms.MultipleChoiceField(
-        widget=forms.CheckboxSelectMultiple,
-    )
 
 
 
