@@ -61,7 +61,7 @@ class s3Client:
     def delete(self, object_name):
         s3 = boto3.client('s3')
         try:
-            s3.download_file(self.bucket, object_name)
+            s3.delete_object(Bucket=self.bucket, Key=object_name)
         except ClientError as e:
             logging.error(e)
             print(e)
