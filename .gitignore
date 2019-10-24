@@ -8,10 +8,12 @@ tabGenerator/tabGenerator/__pycache__/
 
 *.mp3
 
+data/*
+
 app/mediafiles/*
 
 app/upload/migrations/*
-
+app/tab_generator/migrations/*
 .idea/*
 
 /venv/*

@@ -11,13 +11,15 @@ from tab_generator.audio.youtube_download import download
 from django import forms
 from upload.models import Document
 import os
+from tab_generator.models import AudioFile
+
 def validate_link(link):
-    '''
-    :param link:     URL of youtube video whose audio I'd like to download and extract..
-    :return:         If the link is valid returns the link, if the link is not valid, this function will attempt to return
-                    a valid link.  (If the user passes in a list of links, will parse the passed in string to return the first
-                    link..
-    '''
+        '''
+        :param link:     URL of youtube video whose audio I'd like to download and extract..
+        :return:         If the link is valid returns the link, if the link is not valid, this function will attempt to return
+                        a valid link.  (If the user passes in a list of links, will parse the passed in string to return the first
+                        link..
+        '''
 
 
 class LinkForm(forms.Form):
@@ -71,3 +73,52 @@ def slow_down(request, *args, **kwargs):
         count = User.objects.count()
         context = {'method': request.method, 'form': form}
         return render(request, 'slowdown.html', context)
+
+
+class CreateTabForm(forms.Form):
+    title = forms.CharField(label="title", max_length=30)
+    youtube_link = forms.CharField(label="youtubelink", max_length=200)
+    def cleanedTitleData(self):
+        return self.cleaned_data['title']
+
+    def cleanedLinkData(self):
+        data = self.cleaned_data['youtube_link']
+        return data
+
+
+def create_guitar_tab_view(request):
+    form = CreateTabForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        author = request.user
+        link = form.cleanedLinkData()
+        title = form.cleanedTitleData()
+        audioFile = AudioFile(link=link, title=title)
+        audioFile.save()
+
+        # download(link)
+        # uploadFile = latestFileUpdate()
+        # s3 = s3Client('basedjango', request.user)
+        # s3.upload_file(uploadFile, "youtubeFile")
+
+    context = {}
+    context['form'] = form
+    return render(request, "create_tab.html", context)
+
+
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from tab_generator.api.serializers import UserSerializer, GroupSerializer
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

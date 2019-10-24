@@ -63,12 +63,11 @@ def image_upload(request):
 
         print("The type of the image url is " )
         print(type(image_url))
-        print("The image file is " + image_url_string)
+        print("The image file is " + image_url_string.split("/")[-1])
         print("The type of the image url is ")
         print(type(image_url_string))
         s3 = s3Client('basedjango', request.user )
-
-        s3.upload_file(image_url)
+        s3.upload_file(image_url, image_url_string.split("/")[-1])
         return render(request, "upload.html", {
             "image_url": image_url
         })
@@ -78,6 +77,12 @@ def file_download(request, *args, **kwargs):
     s3 = s3Client('basedjango', request.user)
     s3.download("youtube.mp3")
     return render(request, "home.html")
+
+def delete_file(request, *args, **kwargs):
+    s3 = s3Client('basedjango', request.user)
+    s3.delete("youtube.mp3")
+    return render(request, "home.html")
+
 
 def launch_instance(request, *args, **kwargs):
     ec2 = ec2Client("TabGenerator",request.user)
@@ -100,6 +105,20 @@ def list_instances(request, *args, **kwargs):
     length = len(instances)
     context = {"instances":instances, "length":length}
     return render(request, "instances.html", context)
+
+from upload.models import Document
+
+def list(request, *args, **kwargs):
+    docuemnts = Document.objects.filter(user=request.user)
+    context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
+
+    # s3 = s3Client('basedjango', request.user )
+    # s3.upload_file(image_url)
+
+    return render(request, 'list.html', context )
+
+
+
 
 
 @login_required
