@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-
+<link rel="stylesheet" href="{% static 'css/howler.css' %}">
 
 <br>
 
@@ -17,8 +18,248 @@
 {% for item in choices %}
 {{ item }} <br>
 {% endfor %}
-{% endblock %}
-{{choices}}
 
 
-{{ policy }}
+<div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Days
+            <span class="caret"></span></button>
+        <div class="fieldWrapper">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                {% for field in userform %}
+                    <li class="fieldWrapper">
+                        {{ field.errors }}
+                        {{ field.label_tag }} {{ field }}
+                        {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+      <div class="title" style="text-align: center;color: aquamarine;"> Gaurav.fm </div>
+      <div class="padding"></div>
+      <div id="station0" class="station">
+         <div class="title">
+            <div id="title0" class="subtitle"></div>
+            <div id="live0" class="live">LIVE</div>
+            <div id="playing0" class="playing">
+               <div class="rect1"></div>
+               <div class="rect2"></div>
+               <div class="rect3"></div>
+               <div class="rect4"></div>
+               <div class="rect5"></div>
+            </div>
+         </div>
+      </div>
+      <div id="station1" class="station">
+         <div class="title">
+            <div id="title1" class="subtitle"></div>
+            <div id="live1" class="live">LIVE</div>
+            <div id="playing1" class="playing">
+               <div class="rect1"></div>
+               <div class="rect2"></div>
+               <div class="rect3"></div>
+               <div class="rect4"></div>
+               <div class="rect5"></div>
+            </div>
+         </div>
+      </div>
+      <div id="station2" class="station">
+         <div class="title">
+            <div id="title2" class="subtitle"></div>
+            <div id="live2" class="live">LIVE</div>
+            <div id="playing2" class="playing">
+               <div class="rect1"></div>
+               <div class="rect2"></div>
+               <div class="rect3"></div>
+               <div class="rect4"></div>
+               <div class="rect5"></div>
+            </div>
+         </div>
+      </div>
+      <div id="station3" class="station">
+         <div class="title">
+            <div id="title3" class="subtitle"></div>
+            <div id="live3" class="live">LIVE</div>
+            <div id="playing3" class="playing">
+               <div class="rect1"></div>
+               <div class="rect2"></div>
+               <div class="rect3"></div>
+               <div class="rect4"></div>
+               <div class="rect5"></div>
+            </div>
+         </div>
+      </div>
+      <div id="station4" class="station">
+         <div class="title">
+            <div id="title4" class="subtitle"></div>
+            <div id="live4" class="live">LIVE</div>
+            <div id="playing4" class="playing">
+               <div class="rect1"></div>
+               <div class="rect2"></div>
+               <div class="rect3"></div>
+               <div class="rect4"></div>
+               <div class="rect5"></div>
+            </div>
+         </div>
+      </div>
+      <div class="padding"></div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.1/howler.min.js"></script>
+      <script>
+         var Radio = function(stations) {
+          var self = this;
+
+          self.stations = stations;
+          self.index = 0;
+
+          // Setup the display for each station.
+          for (var i=0; i<self.stations.length; i++) {
+            window['title' + i].innerHTML = '<b>' + self.stations[i].freq + '</b> ' + self.stations[i].title;
+            window['station' + i].addEventListener('click', function(index) {
+              var isNotPlaying = (self.stations[index].howl && !self.stations[index].howl.playing());
+
+              radio.stop();
+
+              if (isNotPlaying || !self.stations[index].howl) {
+                radio.play(index);
+              }
+            }.bind(self, i));
+          }
+         };
+
+         Radio.prototype = {
+          play: function(index) {
+            var self = this;
+            var sound;
+
+            index = typeof index === 'number' ? index : self.index;
+            var data = self.stations[index];
+
+            if (data.howl) {
+              sound = data.howl;
+            } else {
+              sound = data.howl = new Howl({
+                src: data.src,
+                html5: true,
+                format: ['mp3', 'aac']
+              });
+            }
+
+            sound.play();
+
+            self.toggleStationDisplay(index, true);
+
+            self.index = index;
+          },
+
+            stop: function() {
+            var self = this;
+
+            var sound = self.stations[self.index].howl;
+
+            self.toggleStationDisplay(self.index, false);
+
+            if (sound) {
+              sound.stop();
+            }
+          },
+
+            toggleStationDisplay: function(index, state) {
+            var self = this;
+
+            window['station' + index].style.backgroundColor = state ? 'rgba(255, 255, 255, 0.33)' : '';
+
+            window['live' + index].style.opacity = state ? 1 : 0;
+
+            window['playing' + index].style.display = state ? 'block' : 'none';
+          }
+         };
+
+
+         var radio = new Radio([
+         {
+            freq: '91.1',
+            title: "Radio City",
+            src: 'http://prclive1.listenon.in:9960/',
+            howl: null
+         },
+         {
+            freq: '81.4',
+            title: "BBC Radio 1",
+            src: 'http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio1_mf_q',
+            howl: null
+          },
+          {
+            freq: '89.9',
+            title: "Hip Hop Hits",
+            src: 'http://tunein4.streamguys1.com/hhbeafree5',
+            howl: null
+          },
+          {
+            freq: '98.3',
+            title: "Radio  Mirchi",
+            src: 'http://peridot.streamguys.com:7150/Mirchi',
+            howl: null
+          },
+          {
+            freq: '103.3',
+            title: "80's Hits",
+            src: 'http://tunein4.streamguys1.com/80shtfree1',
+            howl: null
+          }]);
+
+
+      </script>
+
+
+<!--<div>-->
+<!--<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}"00>-->
+<!--  &lt;!&ndash; Top Info &ndash;&gt;-->
+<!--  <div id="title">-->
+<!--    <span id="track"></span>-->
+<!--    <div id="timer">0:00</div>-->
+<!--    <div id="duration">0:00</div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Controls &ndash;&gt;-->
+<!--  <div class="controlsOuter">-->
+<!--    <div class="controlsInner">-->
+<!--      <div id="loading"></div>-->
+<!--      <div class="btn" id="playBtn"></div>-->
+<!--      <div class="btn" id="pauseBtn"></div>-->
+<!--      <div class="btn" id="prevBtn"></div>-->
+<!--      <div class="btn" id="nextBtn"></div>-->
+<!--    </div>-->
+<!--    <div class="btn" id="playlistBtn"></div>-->
+<!--    <div class="btn" id="volumeBtn"></div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Progress &ndash;&gt;-->
+<!--  <div id="waveform"></div>-->
+<!--  <div id="bar"></div>-->
+<!--  <div id="progress"></div>-->
+
+<!--  &lt;!&ndash; Playlist &ndash;&gt;-->
+<!--  <div id="playlist">-->
+<!--    <div id="list"></div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Volume &ndash;&gt;-->
+<!--  <div id="volume" class="fadeout">-->
+<!--    <div id="barFull" class="bar"></div>-->
+<!--    <div id="barEmpty" class="bar"></div>-->
+<!--    <div id="sliderBtn"></div>-->
+<!--  </div>-->
+
+<!--  &lt;!&ndash; Scripts &ndash;&gt;-->
+
+<!--  <script type="text/javascript" src="{% static "js/howler.core.js" %}"></script>-->
+<!--   <script type="text/javascript" src="{% static "js/siriwave.js" %}"></script>-->
+<!--  <script type="text/javascript" src="{% static "js/play.js" %}"></script>-->
+<!--</div>-->
+
+<!--{% endblock %}-->

@@ -13,24 +13,37 @@ from django.urls import reverse_lazy
 
 from upload.forms import AudioFilesForm
 
+from django import forms
 
+FRUIT_CHOICES= [
+    ('orange', 'Oranges'),
+    ('cantaloupe', 'Cantaloupes'),
+    ('mango', 'Mangoes'),
+    ('honeydew', 'Honeydews'),
+    ]
+
+class UserForm(forms.Form):
+    first_name= forms.CharField(max_length=100)
+    last_name= forms.CharField(max_length=100)
+    email= forms.EmailField()
+    age= forms.IntegerField()
+    favorite_fruit= forms.CharField(label='What is your favorite fruit?', widget=forms.Select(choices=FRUIT_CHOICES))
 
 
 
 def list(request, *args, **kwargs):
     docuemnts = Document.objects.filter(user=request.user)
-    # context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
-    #
     document_files =  docuemnts.values('s3Path')
 
     context = {}
+    userform = UserForm()
+    context['userform'] = userform
     context['documents'] = document_files
     selections = []
     if request.method == 'POST':
         form = AudioFilesForm(request.POST, files=document_files)
-        #form = MyForm()
         context['form'] = form
-        #context['selections']
+
         s3 = s3Client('basedjango', request.user)
         if form.is_valid():
             fields = form.fields
@@ -125,48 +138,3 @@ def upload(request):
     Alright I need to pass in the user
 
     '''
-
-
-def list(request, *args, **kwargs):
-    docuemnts = Document.objects.filter(user=request.user)
-    # context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
-    #
-    document_files =  docuemnts.values('s3Path')
-
-    context = {}
-    context['documents'] = document_files
-    selections = []
-    if request.method == 'POST':
-        form = AudioFilesForm(request.POST, files=document_files)
-        #form = MyForm()
-        context['form'] = form
-        #context['selections']
-        s3 = s3Client('basedjango', request.user)
-        if form.is_valid():
-            fields = form.fields
-
-            booleans = []
-            for index, field in enumerate(fields):
-                if form.cleaned_data[field]:
-                    document = document_files[index]
-                    keys =  document.keys()
-
-                    for key in keys:
-                        path = document[key]
-                        filepath = path.split("/")[-1]
-                        print("The filepath is " + filepath)
-                        is_deleted = s3.delete(filepath)
-                        print("keys")
-                        Document.objects.filter(s3Path = document['s3Path']).delete()
-
-            context['choices'] = booleans
-
-    else:
-        form = AudioFilesForm(files=document_files)
-
-        context['form'] = form
-    return render(request, 'list.html',context)
-
-
-
-

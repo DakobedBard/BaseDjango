@@ -2,17 +2,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-import base.views
+import accounts.views
 import upload.views
 import tab_generator.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("login/",base.views.login , name="login"),
-    path("home/", base.views.home, name ='home'),
-    path('signup/',base.views.signup, name='signup'),
+    path("login/", accounts.views.login, name="login"),
+    path("home/", accounts.views.home, name ='home'),
+    path('signup/', accounts.views.signup, name='signup'),
     path('accounts', include('django.contrib.auth.urls')),
-    path('secret/', base.views.secret_page, name='account'),
+    path('secret/', accounts.views.secret_page, name='account'),
 
     # Audio
     path('tabs/', tab_generator.views.slow_down, name='slow'),
