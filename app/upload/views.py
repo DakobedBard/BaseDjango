@@ -11,42 +11,51 @@ from upload.models import EC2Instance
 import os
 from django.urls import reverse_lazy
 
-def signup(request):
+from upload.forms import AudioFilesForm
+
+
+
+
+
+def list(request, *args, **kwargs):
+    docuemnts = Document.objects.filter(user=request.user)
+    # context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
+    #
+    document_files =  docuemnts.values('s3Path')
+
+    context = {}
+    context['documents'] = document_files
+    selections = []
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = AudioFilesForm(request.POST, files=document_files)
+        #form = MyForm()
+        context['form'] = form
+        #context['selections']
+        s3 = s3Client('basedjango', request.user)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            fields = form.fields
+
+            booleans = []
+            for index, field in enumerate(fields):
+                if form.cleaned_data[field]:
+                    document = document_files[index]
+                    keys =  document.keys()
+
+                    for key in keys:
+                        path = document[key]
+                        filepath = path.split("/")[-1]
+                        print("The filepath is " + filepath)
+                        is_deleted = s3.delete(filepath)
+                        print("keys")
+                        Document.objects.filter(s3Path = document['s3Path']).delete()
+
+            context['choices'] = booleans
+
     else:
-        form = UserCreationForm()
-    return render(request, "registration/signup.html", {
-        'form':form
-    })
+        form = AudioFilesForm(files=document_files)
 
-def login(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = UserCreationForm()
-    return render(request, "registration/login.html", {
-        'form':form
-    })
-
-def home(request):
-    count = User.objects.count()
-    return render(request, 'home.html', {
-        'count': count
-    })
-
-@login_required
-def secret_page(request):
-    return render(request, 'account_details.html')
-
-class SecretPage(LoginRequiredMixin, TemplateView):
-    template_name = 'account_details.html'
+        context['form'] = form
+    return render(request, 'list.html',context)
 
 class Upload(TemplateView):
     template_name = 'upload.html'
@@ -116,29 +125,14 @@ def upload(request):
     Alright I need to pass in the user
 
     '''
-from django import forms
 
-class AudioFilesForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        files = kwargs.pop('files')
-        super(AudioFilesForm, self).__init__(*args, **kwargs)
-        counter = 1
-        for q in files:
-            #self.fields['files-' + str(counter)] = forms.CharField(label='file')
-            self.fields[str(q)] = forms.BooleanField(required=False)
-
-            counter += 1
 
 def list(request, *args, **kwargs):
     docuemnts = Document.objects.filter(user=request.user)
     # context = {'method': request.method, 'count': len(docuemnts), 'documents':docuemnts}
     #
-
     document_files =  docuemnts.values('s3Path')
 
-    # context['form'] = form
-    # # s3 = s3Client('basedjango', request.user )
-    # # s3.upload_file(image_url)
     context = {}
     context['documents'] = document_files
     selections = []
@@ -173,13 +167,6 @@ def list(request, *args, **kwargs):
         context['form'] = form
     return render(request, 'list.html',context)
 
-
-
-
-
-
-
-from django import forms
 
 
 
