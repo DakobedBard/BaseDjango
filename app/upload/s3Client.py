@@ -16,7 +16,7 @@ class s3Client:
         :param file_name: File to upload
         :param bucket: Bucket to upload to
         :param object_name: S3 object name. If not specified then file_name is used
-        :return: primary key of the document uploaded to S3.  If the upload fails will return a -1.
+        :return: returns the document object if uploaded to S3.  If the upload fails will return a -1.
         """
         # If S3 object_name was not specified, use file_name
         if object_name is None:
@@ -30,8 +30,7 @@ class s3Client:
                 s3_client.upload_fileobj(f, self.bucket, object_name)
                 document = Document(s3Path=file_name,user=self.username,bucket=self.bucket)
                 document.save()
-                print("The primary key of the document is " + str(document.pk))
-                return document.pk
+                return document
         except ClientError as e:
             logging.error(e)
             print(e)

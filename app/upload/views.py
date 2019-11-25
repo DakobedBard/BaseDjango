@@ -130,29 +130,35 @@ def list_instances(request, *args, **kwargs):
 
 from style_transfer.style_transfer import StyleTransfer
 
+import time
+
 def style(request, *args, **kwargs):
     context = {}
     if request.method == "POST" and request.FILES["image_file"]:
+        user = request.user
         image_file = request.FILES["image_file"]
         fs = FileSystemStorage()
         filename = fs.save(image_file.name, image_file)
         image_url = fs.url(filename)
         image_url_string = str(image_url)
-        s3 = s3Client('basedjango', request.user )
-        image_document_id = s3.upload_file(image_url, image_url_string.split("/")[-1])
+        s3 = s3Client('basedjango', user )
+        image_document = s3.upload_file(image_url, image_url_string.split("/")[-1])
 
         style_file = request.FILES["style_image"]
         fs = FileSystemStorage()
         filename = fs.save(style_file.name, style_file)
         style_url = fs.url(filename)
         style_url_string = str(style_url)
-        s3 = s3Client('basedjango', request.user )
-        style_document_id = s3.upload_file(style_url, style_url_string.split("/")[-1])
+        s3 = s3Client('basedjango', user )
+        style_document = s3.upload_file(style_url, style_url_string.split("/")[-1])
 
-        style_transfer = StyleTransfer(image_document_id, style_document_id)
+        style_transfer = StyleTransfer(user, image_document.pk, style_document.pk)
+
         if style_transfer.validate():
-            style_transfer.launchEC2()
-
+            instanceID = style_transfer.launchEC2()
+            print("The instance ID is " + str(instanceID))
+            time.sleep(30)
+            style_transfer.terminateEC2(instanceID)
 
         return render(request, "style_transfer.html", {
             "image_url": image_url,

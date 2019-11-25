@@ -1,7 +1,8 @@
-
+from base.ec2Client import ec2Client
 
 class StyleTransfer:
-    def __init__(self, image_document_id, style_document_id):
+    def __init__(self, user, image_document_id, style_document_id):
+        self.user = user
         self.image_id = image_document_id
         self._style_id = style_document_id
 
@@ -21,11 +22,19 @@ class StyleTransfer:
     def launchEC2(self):
         '''
         Launch the EC2 instance.
-
-
         :return:
         '''
-        pass
+        self. ec2 = ec2Client("TabGenerator", self.user)
+        instanceID = self.ec2.launch_instance('t2.micro', 'ec2-key-pair')
+        return instanceID
+
+    def terminateEC2(self, instanceID):
+        try:
+            self.ec2.terminate_instance(instanceID)
+        except Exception as e:
+            print("The error " +e)
+        return True
+
 
     def returnImage(self):
         '''

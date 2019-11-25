@@ -15,7 +15,6 @@ class ec2Client:
 
     def launch_instance(self, instance_type, PemKey, bootstrap_script=None):
         '''
-
         :param instance_type:
         :param PemKey:
         :param bootstrap_script:
@@ -43,6 +42,11 @@ class ec2Client:
         return instance[0].id
 
     def terminate_instance(self, instanceID):
+        '''
+        :param instanceID:  Is this the primary key of the document in the database or the
+        :return:
+        '''
+
         ec2 = boto3.resource('ec2', region_name=self.REGION)
         ec2.instances.filter(InstanceIds=[instanceID]).terminate()
         #instance_model = EC2Instance.__class__.objects.get(instance_ID=instanceID)

@@ -16,8 +16,14 @@ class EC2Instance(models.Model):
     application = models.CharField(max_length=30)
     user = models.CharField(max_length=50, default="BillyStrings@gmail.com")
 
+class Style(models.Model):
+    style_image_s3Path = models.CharField(max_length=80)
+    base_image = models.CharField(max_length=80)
+    output_image = models.CharField(max_length=80)
 
-class StyleTransfer(models.Model):
-     style_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='style')
-     base_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='image')
-
+#
+# class StyleTransfer(models.Model):
+#      style_image_s3Path = models.CharField(max_length=80)
+#      base_image = models.CharField(max_length=80)
+#      output_image = models.CharField(max_length=80)
+#
