@@ -18,6 +18,6 @@ class EC2Instance(models.Model):
 
 
 class StyleTransfer(models.Model):
-    style_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='%(class)s_style_image')
-    base_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='%(class)s_base_image')
+     style_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='style')
+     base_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='image')
 

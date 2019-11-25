@@ -14,6 +14,15 @@ class ec2Client:
         self.user = user
 
     def launch_instance(self, instance_type, PemKey, bootstrap_script=None):
+        '''
+
+        :param instance_type:
+        :param PemKey:
+        :param bootstrap_script:
+        :return: instance ID
+
+        Should this return the AWS instance ID or the models PK?? Probably the primary key..
+        '''
         ec2 = boto3.resource('ec2', region_name=self.REGION)
         instance = ec2.create_instances(
             ImageId=self.AMI,
@@ -30,6 +39,8 @@ class ec2Client:
         instance_model.application = self.application
         instance_model.user = self.user
         instance_model.save()
+
+        return instance[0].id
 
     def terminate_instance(self, instanceID):
         ec2 = boto3.resource('ec2', region_name=self.REGION)

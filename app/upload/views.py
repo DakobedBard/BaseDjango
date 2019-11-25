@@ -128,7 +128,7 @@ def list_instances(request, *args, **kwargs):
     context = {"instances":instances, "length":length}
     return render(request, "instances.html", context)
 
-from upload.models import StyleTransfer
+from style_transfer.style_transfer import StyleTransfer
 
 def style(request, *args, **kwargs):
     context = {}
@@ -139,23 +139,28 @@ def style(request, *args, **kwargs):
         image_url = fs.url(filename)
         image_url_string = str(image_url)
         s3 = s3Client('basedjango', request.user )
-        s3.upload_file(image_url, image_url_string.split("/")[-1])
+        image_document_id = s3.upload_file(image_url, image_url_string.split("/")[-1])
 
         style_file = request.FILES["style_image"]
         fs = FileSystemStorage()
         filename = fs.save(style_file.name, style_file)
         style_url = fs.url(filename)
-        image_url_string = str(style_url)
+        style_url_string = str(style_url)
         s3 = s3Client('basedjango', request.user )
-        s3.upload_file(style_url, image_url_string.split("/")[-1])
+        style_document_id = s3.upload_file(style_url, style_url_string.split("/")[-1])
 
-        style_transfer = StyleTransfer()
+        style_transfer = StyleTransfer(image_document_id, style_document_id)
+        if style_transfer.validate():
+            style_transfer.launchEC2()
 
 
         return render(request, "style_transfer.html", {
             "image_url": image_url,
             "style_url":style_url
         })
+
+    #if request.method == "POST" and request.
+
     return render(request, "style_transfer.html")
 
 from upload.models import Document
