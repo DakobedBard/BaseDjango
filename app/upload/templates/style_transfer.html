@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+Select an image to upload
+
+  <form action="{% url "style" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="image_file">
+    <input type="file" name="style_image">
+    <input type="submit" value="submit" />
+  </form>
+<br>
+  {% if image_url %}
+    <p>File uploaded at: <a href="{{ image_url }}">{{ image_url }}</a></p>
+    <img src="{{ image_url }}" alt="...">
+  {% endif %}
+  {% if style_url %}
+    <p>File uploaded at: <a href="{{ style_url }}">{{ style_url }}</a></p>
+  <img src="{{ style_url }}" alt="...">
+  {% endif %}
+<br>
+
+
+<br>
+
+<br>
+Select a style image
+<br>
+
+
+
+
+{% endblock %}

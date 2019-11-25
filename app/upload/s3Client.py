@@ -29,6 +29,7 @@ class s3Client:
                 print("I open the file " + str(file_name))
                 s3_client.upload_fileobj(f, self.bucket, object_name)
                 document = Document(s3Path=file_name,user=self.username,bucket=self.bucket)
+                # print("The primary key of the document is " + document.pk)
                 document.save()
         except ClientError as e:
             logging.error(e)

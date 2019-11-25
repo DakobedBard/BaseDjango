@@ -15,3 +15,9 @@ class EC2Instance(models.Model):
     instance_ID = models.CharField(max_length=30)
     application = models.CharField(max_length=30)
     user = models.CharField(max_length=50, default="BillyStrings@gmail.com")
+
+
+class StyleTransfer(models.Model):
+    style_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='%(class)s_style_image')
+    base_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='%(class)s_base_image')
+

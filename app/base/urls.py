@@ -38,6 +38,9 @@ urlpatterns = [
     # S3 Audio Files..
     path('list_files/', upload.views.list, name='list_files'),
 
+    # Style Transfer
+    path('style/', upload.views.style, name='style')
+
 ]
 
 if bool(settings.DEBUG):

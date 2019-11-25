@@ -128,8 +128,37 @@ def list_instances(request, *args, **kwargs):
     context = {"instances":instances, "length":length}
     return render(request, "instances.html", context)
 
-from upload.models import Document
+from upload.models import StyleTransfer
 
+def style(request, *args, **kwargs):
+    context = {}
+    if request.method == "POST" and request.FILES["image_file"]:
+        image_file = request.FILES["image_file"]
+        fs = FileSystemStorage()
+        filename = fs.save(image_file.name, image_file)
+        image_url = fs.url(filename)
+        image_url_string = str(image_url)
+        s3 = s3Client('basedjango', request.user )
+        s3.upload_file(image_url, image_url_string.split("/")[-1])
+
+        style_file = request.FILES["style_image"]
+        fs = FileSystemStorage()
+        filename = fs.save(style_file.name, style_file)
+        style_url = fs.url(filename)
+        image_url_string = str(style_url)
+        s3 = s3Client('basedjango', request.user )
+        s3.upload_file(style_url, image_url_string.split("/")[-1])
+
+        style_transfer = StyleTransfer()
+
+
+        return render(request, "style_transfer.html", {
+            "image_url": image_url,
+            "style_url":style_url
+        })
+    return render(request, "style_transfer.html")
+
+from upload.models import Document
 
 @login_required
 def upload(request):
