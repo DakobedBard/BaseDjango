@@ -156,9 +156,8 @@ def style(request, *args, **kwargs):
 
         if style_transfer.validate():
             instanceID = style_transfer.launchEC2()
-            print("The instance ID is " + str(instanceID))
-            time.sleep(30)
-            style_transfer.terminateEC2(instanceID)
+
+            #style_transfer.terminateEC2(instanceID)
 
         return render(request, "style_transfer.html", {
             "image_url": image_url,

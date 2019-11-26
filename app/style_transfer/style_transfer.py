@@ -1,5 +1,42 @@
 from base.ec2Client import ec2Client
 
+test_keras_install = '''#!/bin/bash
+cd /home/ubuntu
+sudo pip install librosa
+sudo pip install tensorflow
+sudo pip install keras
+sudo pip freeze | grep "keras" > /home/ubuntu/keras.txt
+git clone https://github.com/MathiasDarr/KerasStyleTransfer.git 
+sudo bash KerasStyleTransfer/test_keras_import.py > keras_import.txt
+'''
+
+
+AmazonUserData = '''#!/bin/bash
+cd home/ubuntu
+
+sudo mkdir anaconda
+cd anaconda
+sudo wget https://repo.continuum.io/archive/Anaconda3-5.0.1-Linux-x86_64.sh
+sudo bash Anaconda3-5.0.1-Linux-x86_64.sh
+export python3=/anaconda/anaconda3/bin/python
+cd /home/ubuntu
+
+sudo mkdir results
+
+git clone https://github.com/MathiasDarr/KerasStyleTransfer.git 
+$python3 KerasStyleTransfer/downloadS3.py 'base_image.jpg' base_image.jpg
+$python3 KerasStyleTransfer/downloadS3.py 'style_image.jpg' style_image.jpg
+
+sudo /anaconda/anaconda3/bin/pip install --upgrade pip
+
+sudo /anaconda/anaconda3/bin/pip install tensorflow
+sudo /anaconda/anaconda3/bin/pip install keras
+
+$python3 KerasStyleTransfer/styletransfer.py style_image.jpg base_image.jpg results/myimage
+
+'''
+
+
 class StyleTransfer:
     def __init__(self, user, image_document_id, style_document_id):
         self.user = user
@@ -25,7 +62,8 @@ class StyleTransfer:
         :return:
         '''
         self. ec2 = ec2Client("TabGenerator", self.user)
-        instanceID = self.ec2.launch_instance('t2.micro', 'ec2-key-pair')
+        instanceID = self.ec2.launch_instance('g3s.xlarge', 'ec2-key-pair', bootstrap_script=test_keras_install)
+        print("The instance ID is " + str(instanceID))
         return instanceID
 
     def terminateEC2(self, instanceID):
@@ -34,6 +72,13 @@ class StyleTransfer:
         except Exception as e:
             print("The error " +e)
         return True
+
+
+
+
+
+
+
 
 
     def returnImage(self):
