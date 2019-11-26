@@ -1,7 +1,5 @@
-When we start a new Django project we will create a new virtual environment and then activate it..
 
-virtualenv venv -p python3
-source venv/bin/activate
+Reverse accessors for foreign keys clashing
 
 
 

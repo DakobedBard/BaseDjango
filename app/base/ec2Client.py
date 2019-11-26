@@ -1,6 +1,8 @@
 import boto3
 from upload.models import EC2Instance
 
+import time
+
 
 class ec2Client:
     '''
@@ -13,7 +15,15 @@ class ec2Client:
         self.application = application
         self.user = user
 
-    def launch_instance(self, instance_type, PemKey, bootstrap_script=None):
+    def launch_instance(self, instance_type, PemKey, bootstrap_script=""):
+        '''
+        :param instance_type:
+        :param PemKey:
+        :param bootstrap_script:
+        :return: instance ID
+
+        Should this return the AWS instance ID or the models PK?? Probably the primary key..
+        '''
         ec2 = boto3.resource('ec2', region_name=self.REGION)
         instance = ec2.create_instances(
             ImageId=self.AMI,
@@ -23,15 +33,55 @@ class ec2Client:
             InstanceInitiatedShutdownBehavior='terminate',
             IamInstanceProfile={'Name': 'S3fullaccess'},
             InstanceType=instance_type,
-            SecurityGroupIds=['sg-03915a624fb5bf7bd']
+            SecurityGroupIds=['sg-03915a624fb5bf7bd'],
+            UserData=bootstrap_script
         )
+
         instance_model = EC2Instance()
         instance_model.instance_ID = instance[0].id
         instance_model.application = self.application
         instance_model.user = self.user
+        time.sleep(10)
+        dns = self.get_name(instance[0].id)
+        while dns == "":
+            time.sleep(5)
+            dns = self.get_name(instance[0].id)
+            print("Trying again")
+            print("The dns is " + dns)
+        instance_model.instance_dns = dns
         instance_model.save()
+        return instance
 
+    def get_name(self, instance_id):
+        '''
+
+        :param instance_id:
+        :return: the dns name of the instance
+        '''
+        ec2 = boto3.client('ec2')
+
+        ec2client = boto3.resource('ec2')
+        # response = ec2client.describe_instances()
+
+        instances = ec2client.instances.filter(Filters=[{'Name': 'instance-state-name', 'Values': ['running']}])
+        ids = []
+        dns = ""
+        for instance in instances:
+            if instance.id == instance_id:
+                ids.append(instance.id)
+                resp = ec2.describe_network_interfaces()
+                print("printing pub dns name")
+                print(resp['NetworkInterfaces'][0]['Association']['PublicDnsName'])
+                dns = resp['NetworkInterfaces'][0]['Association']['PublicDnsName']
+                print("The dns is" + dns)
+                return dns
+        return dns
     def terminate_instance(self, instanceID):
+        '''
+        :param instanceID:  Is this the primary key of the document in the database or the
+        :return:
+        '''
+
         ec2 = boto3.resource('ec2', region_name=self.REGION)
         ec2.instances.filter(InstanceIds=[instanceID]).terminate()
         #instance_model = EC2Instance.__class__.objects.get(instance_ID=instanceID)

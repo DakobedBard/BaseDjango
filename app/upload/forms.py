@@ -9,3 +9,5 @@ class AudioFilesForm(forms.Form):
             #self.fields['files-' + str(counter)] = forms.CharField(label='file')
             self.fields[str(q)] = forms.BooleanField(required=False)
             counter += 1
+
+

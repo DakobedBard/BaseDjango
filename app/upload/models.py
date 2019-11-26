@@ -13,5 +13,18 @@ class EC2Instance(models.Model):
     '''
     created_at = models.DateTimeField(auto_now_add=True)
     instance_ID = models.CharField(max_length=30)
+    instance_dns = models.CharField(max_length=80, default="")
     application = models.CharField(max_length=30)
     user = models.CharField(max_length=50, default="BillyStrings@gmail.com")
+
+class Style(models.Model):
+    style_image_s3Path = models.CharField(max_length=80)
+    base_image = models.CharField(max_length=80)
+    output_image = models.CharField(max_length=80)
+
+#
+# class StyleTransfer(models.Model):
+#      style_image_s3Path = models.CharField(max_length=80)
+#      base_image = models.CharField(max_length=80)
+#      output_image = models.CharField(max_length=80)
+#
