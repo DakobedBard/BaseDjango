@@ -42,10 +42,15 @@ class ec2Client:
         instance_model.application = self.application
         instance_model.user = self.user
         time.sleep(10)
-
-        instance_model.instance_dns = self.ge
-
+        dns = self.get_name(instance[0].id)
+        while dns == "":
+            time.sleep(5)
+            dns = self.get_name(instance[0].id)
+            print("Trying again")
+            print("The dns is " + dns)
+        instance_model.instance_dns = dns
         instance_model.save()
+        return instance
 
     def get_name(self, instance_id):
         '''
@@ -54,12 +59,7 @@ class ec2Client:
         :return: the dns name of the instance
         '''
         ec2 = boto3.client('ec2')
-        response = ec2.describe_instances()
 
-        instancelist = []
-        for reservation in (response["Reservations"]):
-            for instance in reservation["Instances"]:
-                instancelist.append(instance["InstanceId"])
         ec2client = boto3.resource('ec2')
         # response = ec2client.describe_instances()
 
@@ -69,10 +69,12 @@ class ec2Client:
         for instance in instances:
             if instance.id == instance_id:
                 ids.append(instance.id)
-                resp = ec2.describe_network_interfaces();
+                resp = ec2.describe_network_interfaces()
                 print("printing pub dns name")
                 print(resp['NetworkInterfaces'][0]['Association']['PublicDnsName'])
                 dns = resp['NetworkInterfaces'][0]['Association']['PublicDnsName']
+                print("The dns is" + dns)
+                return dns
         return dns
     def terminate_instance(self, instanceID):
         '''

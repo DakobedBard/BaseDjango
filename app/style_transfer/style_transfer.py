@@ -62,9 +62,9 @@ class StyleTransfer:
         :return:
         '''
         self. ec2 = ec2Client("TabGenerator", self.user)
-        instanceID = self.ec2.launch_instance('g3s.xlarge', 'ec2-key-pair', bootstrap_script=test_keras_install)
-        print("The instance ID is " + str(instanceID))
-        return instanceID
+        instance = self.ec2.launch_instance('g3s.xlarge', 'ec2-key-pair', bootstrap_script=test_keras_install)
+        print("The instance ID is " + instance[0].id)
+        return instance[0].id
 
     def terminateEC2(self, instanceID):
         try:

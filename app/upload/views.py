@@ -155,11 +155,12 @@ def style(request, *args, **kwargs):
         style_transfer = StyleTransfer(user, image_document.pk, style_document.pk)
 
         if style_transfer.validate():
-            instanceID = style_transfer.launchEC2()
+            dns = style_transfer.launchEC2()
 
             #style_transfer.terminateEC2(instanceID)
 
         return render(request, "style_transfer.html", {
+            "dns":dns,
             "image_url": image_url,
             "style_url":style_url
         })
