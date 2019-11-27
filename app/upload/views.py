@@ -24,8 +24,6 @@ class UserForm(forms.Form):
     age= forms.IntegerField()
     favorite_fruit= forms.CharField(label='What is your favorite fruit?', widget=forms.Select(choices=FRUIT_CHOICES))
 
-
-
 def list(request, *args, **kwargs):
     docuemnts = Document.objects.filter(user=request.user)
     document_files =  docuemnts.values('s3Path')
@@ -178,3 +176,5 @@ def upload(request):
     Alright I need to pass in the user
 
     '''
+
+

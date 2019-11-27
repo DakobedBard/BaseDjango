@@ -23,5 +23,16 @@ services:
       - POSTGRES_PASSWORD=database1_password
       - POSTGRES_DB=database1
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbit
+    ports:
+      - 15672:15672
+      - 5673:5673
+    labels:
+      NAME: rabbitmq
+    volumes:
+      - .config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
+
 volumes:
   postgres_data:
