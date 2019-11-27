@@ -8,6 +8,7 @@ from upload.models import EC2Instance
 
 from upload.forms import AudioFilesForm
 
+from upload.tasks import celery_method
 from django import forms
 
 FRUIT_CHOICES= [
@@ -125,14 +126,14 @@ def style(request, *args, **kwargs):
         style_document = s3.upload_file(style_url, style_url_string.split("/")[-1])
 
         style_transfer = StyleTransfer(user, image_document.pk, style_document.pk)
+        celery_method.delay()
 
-        if style_transfer.validate():
-            dns = style_transfer.launchEC2()
+        #if style_transfer.validate():
+            #dns = style_transfer.launchEC2()
 
             #style_transfer.terminateEC2(instanceID)
 
         return render(request, "style_transfer.html", {
-            "dns":dns,
             "image_url": image_url,
             "style_url":style_url
         })

@@ -3,12 +3,11 @@ from celery import shared_task
 
 from django.contrib.auth import get_user_model
 
+from aws.ec2Client import ec2Client
+
 User = get_user_model()
 
 @shared_task
-def post_signup_welcome_mail(user_pk=None):
-    user = User.objects.filter(pk=user_pk).first
-    if user:
-        print("Welcome {}".format(user.username))
-    else:
-        print("User not found")
+def launchEC2():
+    print("I am in the celery method")
+    ec2 = ec2Client()
