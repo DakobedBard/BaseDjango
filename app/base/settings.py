@@ -125,7 +125,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-CELERY_BROKER_URL =""
+CELERY_BROKER_URL ="amqp://rabbitmq"
 
 
 # Static files (CSS, JavaScript, Images)

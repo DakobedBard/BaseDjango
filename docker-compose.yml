@@ -14,6 +14,7 @@ services:
       - ./.env.dev-sample
     depends_on:
       - db
+      - rabbitmq
   db:
     image: postgres:12.0-alpine
     volumes:
@@ -24,15 +25,6 @@ services:
       - POSTGRES_DB=database1
 
   rabbitmq:
-    image: rabbitmq:3-management
-    hostname: rabbit
-    ports:
-      - 15672:15672
-      - 5673:5673
-    labels:
-      NAME: rabbitmq
-    volumes:
-      - .config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
-
+    image: rabbitmq:3.7-alpine
 volumes:
   postgres_data:

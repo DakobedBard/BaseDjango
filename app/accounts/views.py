@@ -10,7 +10,7 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            post_signup_welcome_mail()
+            post_signup_welcome_mail.delay()
             return redirect('home')
     else:
         form = UserCreationForm()
