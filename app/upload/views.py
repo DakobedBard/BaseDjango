@@ -75,26 +75,6 @@ class Upload(TemplateView):
 
 
 
-def image_upload(request):
-    if request.method == "POST" and request.FILES["image_file"]:
-        image_file = request.FILES["image_file"]
-        fs = FileSystemStorage()
-        filename = fs.save(image_file.name, image_file)
-        image_url = fs.url(filename)
-        image_url_string = str(image_url)
-
-        print("The type of the image url is " )
-        print(type(image_url))
-        print("The image file is " + image_url_string.split("/")[-1])
-        print("The type of the image url is ")
-        print(type(image_url_string))
-        s3 = s3Client('basedjango', request.user )
-        s3.upload_file(image_url, image_url_string.split("/")[-1])
-        return render(request, "upload.html", {
-            "image_url": image_url
-        })
-    return render(request, "upload.html")
-
 def file_download(request, *args, **kwargs):
     s3 = s3Client('basedjango', request.user)
     s3.download("youtube.mp3")
@@ -174,7 +154,7 @@ from mir.MIR import MIR
 def train_model(request, *args, **kwargs):
     context = {}
     if request.method == "POST":
-        mir = MIR()
+        mir = MIR(request.user, "heyward-audio-tabs")
         instance_id = mir.train_model()
     return render(request, "model.html", context)
 

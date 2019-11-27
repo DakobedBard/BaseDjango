@@ -21,7 +21,7 @@ urlpatterns = [
 
     path('player', tab_generator.views.player, name='player'),
     # Upload
-    path('upload_image/', upload.views.image_upload, name='upload'),
+
     path('upload', upload.views.Upload.as_view(), name='upload_file'),
     # AWS paths
 
