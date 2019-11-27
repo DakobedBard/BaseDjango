@@ -14,6 +14,7 @@ services:
       - ./.env.dev-sample
     depends_on:
       - db
+      - rabbitmq
   db:
     image: postgres:12.0-alpine
     volumes:
@@ -23,5 +24,7 @@ services:
       - POSTGRES_PASSWORD=database1_password
       - POSTGRES_DB=database1
 
+  rabbitmq:
+    image: rabbitmq:3.7-alpine
 volumes:
   postgres_data:

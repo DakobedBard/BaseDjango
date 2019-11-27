@@ -73,6 +73,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'base.wsgi.application'
 
 
@@ -122,6 +124,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+CELERY_BROKER_URL ="amqp://rabbitmq"
 
 
 # Static files (CSS, JavaScript, Images)

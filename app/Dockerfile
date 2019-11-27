@@ -27,6 +27,7 @@ COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt
 run pip install --upgrade youtube-dl
 run pip install --upgrade ipython
+run pip install -U Celery
 run pip install --upgrade awscli
 run pip install pytest
 run pip install Pillow
