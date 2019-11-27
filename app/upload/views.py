@@ -1,15 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
-from django.views.generic import TemplateView, ListView, CreateView
-from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
-from upload.s3Client import s3Client
-from base.ec2Client import ec2Client
+from aws.s3Client import s3Client
+from aws.ec2Client import ec2Client
 from upload.models import EC2Instance
-import os
-from django.urls import reverse_lazy
 
 from upload.forms import AudioFilesForm
 
@@ -110,7 +105,6 @@ def list_instances(request, *args, **kwargs):
 
 from style_transfer.style_transfer import StyleTransfer
 
-import time
 
 def style(request, *args, **kwargs):
     context = {}
@@ -152,6 +146,18 @@ def style(request, *args, **kwargs):
 from mir.MIR import MIR
 
 def train_model(request, *args, **kwargs):
+    '''
+
+    :param request:
+    :param args:
+    :param kwargs:
+    :return:
+
+    This view will return the model.html template.  This page will allow the user to load a model from s3
+
+    '''
+
+
     context = {}
     if request.method == "POST":
         mir = MIR(request.user, "heyward-audio-tabs")

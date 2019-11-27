@@ -1,4 +1,4 @@
-from base.ec2Client import ec2Client
+from aws.ec2Client import ec2Client
 
 test_keras_install = '''#!/bin/bash
 cd /home/ubuntu

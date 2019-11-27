@@ -1,12 +1,6 @@
-from django.shortcuts import render, redirect
-from django.core.files.storage import FileSystemStorage
-from django.views.generic import TemplateView, ListView, CreateView
+from django.shortcuts import render
 #from base.forms.userCreationForm import UserCreationForm
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
-from upload.s3Client import s3Client
+from aws.s3Client import s3Client
 from tab_generator.audio.youtube_download import download
 from django import forms
 from upload.models import Document
