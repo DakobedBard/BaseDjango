@@ -1,10 +1,10 @@
-from base.ec2Client import ec2Client
+from aws.ec2Client import ec2Client
 
 train_model_script = '''
 git clone https://github.com/HeywardSoftware/BaseDjango.git
 
 '''
-from upload.s3Client import s3Client
+
 
 class MIR:
     def __init__(self, user,  s3_bucket, data_bucket=None, generate_spectogrms=False):

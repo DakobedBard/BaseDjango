@@ -3,8 +3,16 @@
 
   <form action="{% url "train_model" %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-
     <input type="submit" value="Train Model" />
   </form>
+  <br>
+  <form action="{% url "train_model" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="submit" value="Load Model" />
+  </form>
+
+  {% if model %}
+    {{ model }}
+  {% endif %}
 
 {% endblock %}
