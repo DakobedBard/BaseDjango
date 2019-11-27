@@ -23,18 +23,23 @@ cd /home/ubuntu
 
 sudo mkdir results
 
-git clone https://github.com/MathiasDarr/KerasStyleTransfer.git 
-$python3 KerasStyleTransfer/downloadS3.py 'base_image.jpg' base_image.jpg
-$python3 KerasStyleTransfer/downloadS3.py 'style_image.jpg' style_image.jpg
-
-sudo /anaconda/anaconda3/bin/pip install --upgrade pip
-
-sudo /anaconda/anaconda3/bin/pip install tensorflow
-sudo /anaconda/anaconda3/bin/pip install keras
+git clone https://github.com/HeywardSoftware/BaseDjango.git
+$python3 BaseDjango/app/base/downloadS3.py 'base_image.jpg' base_image.jpg
+$python3 BaseDjango/app/base/downloadS3.py 'style_image.jpg' style_image.jpg
 
 $python3 KerasStyleTransfer/styletransfer.py style_image.jpg base_image.jpg results/myimage
 
 '''
+
+
+script = '''sudo /anaconda/anaconda3/bin/pip install --upgrade pip
+python3 KerasStyleTransfer/downloadS3.py 'base_image.jpg' base_image.jpg {}
+sudo /anaconda/anaconda3/bin/pip install tensorflow
+sudo /anaconda/anaconda3/bin/pip install keras
+
+sudo /anaconda/anaconda3/bin/pip install tensorflow
+sudo /anaconda/anaconda3/bin/pip install keras
+'''.format('basedjango')
 
 
 class StyleTransfer:

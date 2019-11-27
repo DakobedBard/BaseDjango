@@ -22,6 +22,20 @@ class Style(models.Model):
     base_image = models.CharField(max_length=80)
     output_image = models.CharField(max_length=80)
 
+
+class MirModel(models.Model):
+    s3_bucket = models.CharField(max_length=30, default='heyward-audio-tabs')
+
+class Spectogram(models.Model):
+    annotation_file_path = models.CharField(max_length=40)
+    audio_file_path = models.CharField(max_length=40)
+
+
+
+
+
+
+
 #
 # class StyleTransfer(models.Model):
 #      style_image_s3Path = models.CharField(max_length=80)
