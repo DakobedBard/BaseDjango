@@ -39,7 +39,11 @@ urlpatterns = [
     path('list_files/', upload.views.list, name='list_files'),
 
     # Style Transfer
-    path('style/', upload.views.style, name='style')
+    path('style/', upload.views.style, name='style'),
+
+    path('train_model/', upload.views.train_model, name='train_model')
+
+
 
 ]
 

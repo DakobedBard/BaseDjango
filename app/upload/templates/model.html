@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <form action="{% url "upload" %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input type="submit" value="Train Model" />
+  </form>
+
+{% endblock %}

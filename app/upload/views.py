@@ -169,6 +169,20 @@ def style(request, *args, **kwargs):
 
     return render(request, "style_transfer.html")
 
+from mir.MIR import MIR
+
+def train_model(request, *args, **kwargs):
+    context = {}
+    if request.method == "POST":
+        mir = MIR()
+        instance_id = mir.train_model()
+    return render(request, "model.html", context)
+
+def generate_spectograms(request, *args, **kwargs):
+    context = {}
+    return render(request, "model.html", context)
+
+
 from upload.models import Document
 
 @login_required

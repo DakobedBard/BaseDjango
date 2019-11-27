@@ -39,6 +39,9 @@
             <a class="nav-link" href="{% url 'list_instances' %}">EC2 Instances</a>
           </li>
 
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'train_model' %}">Train MIR model</a>
+          </li>
 
 
           {% if user.is_authenticated %}
