@@ -31,14 +31,12 @@ class Spectogram(models.Model):
     audio_file_path = models.CharField(max_length=40)
 
 
+class StyleTransferModel(models.Model):
+    description = models.CharField(max_length=30)
+    style_image_document_id = models.ForeignKey(Document, on_delete=models.CASCADE,related_name ='tyle_image_document')
+    base_image_document_id = models.ForeignKey(Document, on_delete=models.CASCADE,related_name ='base_image_document')
+    output_image_document_d = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='output_image_document', )
+    style_image_title = models.CharField(max_length=20)
+    base_image_title = models.CharField(max_length=20)
+    output_image_title = models.CharField(max_length=30)
 
-
-
-
-
-#
-# class StyleTransfer(models.Model):
-#      style_image_s3Path = models.CharField(max_length=80)
-#      base_image = models.CharField(max_length=80)
-#      output_image = models.CharField(max_length=80)
-#

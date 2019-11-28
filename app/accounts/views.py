@@ -4,7 +4,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
+
 from accounts.tasks import post_signup_welcome_mail
+
+
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

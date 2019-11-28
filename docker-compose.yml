@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  web:
+  web: &python
     build: ./app
     command: python manage.py runserver 0.0.0.0:8000
     container_name: djangoapp
@@ -15,6 +15,8 @@ services:
     depends_on:
       - db
       - rabbitmq
+      - celery_worker
+
   db:
     image: postgres:12.0-alpine
     volumes:
@@ -26,5 +28,24 @@ services:
 
   rabbitmq:
     image: rabbitmq:3.7-alpine
+  celery_worker:
+    <<: *python
+    container_name: celery
+    command: celery -A accounts worker --loglevel=info
+    ports: []
+    depends_on:
+      - rabbitmq
+      - db
+  react:
+    build: ./react
+    command: ["npm", "start"]
+    container_name: react
+    volumes:
+      - ./react:/app/frontend
+      - node-modules:/app/frontend/node_modules
+    ports:
+      - "3000:3000"
+
 volumes:
   postgres_data:
+  node-modules:

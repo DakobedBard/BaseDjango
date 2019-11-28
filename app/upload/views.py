@@ -8,6 +8,7 @@ from upload.models import EC2Instance
 
 from upload.forms import AudioFilesForm
 
+from upload.tasks import celery_style_transfer
 from django import forms
 
 FRUIT_CHOICES= [
@@ -123,19 +124,11 @@ def style(request, *args, **kwargs):
         style_url_string = str(style_url)
         s3 = s3Client('basedjango', user )
         style_document = s3.upload_file(style_url, style_url_string.split("/")[-1])
+        context =  {"image_url": image_url, "style_url":style_url}
 
-        style_transfer = StyleTransfer(user, image_document.pk, style_document.pk)
+        output_image = celery_style_transfer.delay()
 
-        if style_transfer.validate():
-            dns = style_transfer.launchEC2()
-
-            #style_transfer.terminateEC2(instanceID)
-
-        return render(request, "style_transfer.html", {
-            "dns":dns,
-            "image_url": image_url,
-            "style_url":style_url
-        })
+        return render(request, "style_transfer.html", context)
 
     #if request.method == "POST" and request.
 
@@ -145,7 +138,6 @@ from mir.MIR import MIR
 
 def train_model(request, *args, **kwargs):
     '''
-
     :param request:
     :param args:
     :param kwargs:
@@ -154,8 +146,6 @@ def train_model(request, *args, **kwargs):
     This view will return the model.html template.  This page will allow the user to load a model from s3
 
     '''
-
-
     context = {}
     if request.method == "POST":
         mir = MIR(request.user, "heyward-audio-tabs")

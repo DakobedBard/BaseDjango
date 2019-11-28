@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 import accounts.views
 import upload.views
 import tab_generator.views
+import tabs.views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -41,10 +42,11 @@ urlpatterns = [
     # Style Transfer
     path('style/', upload.views.style, name='style'),
 
-    path('train_model/', upload.views.train_model, name='train_model')
+    # Tab Generator Home
+    path('tabs/', tabs.views.TabsView.as_view()),
 
-
-
+    path('train_model/', upload.views.train_model, name='train_model'),
+    path('tablature/', tabs.views.load_tab, name='load_tabs')
 ]
 
 if bool(settings.DEBUG):
