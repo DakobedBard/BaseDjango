@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-
-import {BrowserRouter as Router, Route } from 'react-router-dom'
-
+import {BrowserRouter as Router, Route } from './react-router-dom.min.js'
 
 import logo from '../img/logo.svg';
 import '../css/App.css';
 
 import _ from "lodash";
 import ListItem from './ListItem.jsx';
-<script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
+
+import Home from
+
 class DocumentList extends Component {
   constructor(props) {
     super(props);

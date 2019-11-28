@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "accounts",
     "tabs",
+    "products",
+    "pages"
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

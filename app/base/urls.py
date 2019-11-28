@@ -1,11 +1,14 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 import accounts.views
 import upload.views
 import tab_generator.views
 import tabs.views
+
+from pages.views import FrontendRenderView
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -46,8 +49,16 @@ urlpatterns = [
     path('tabs/', tabs.views.TabsView.as_view()),
 
     path('train_model/', upload.views.train_model, name='train_model'),
-    path('tablature/', tabs.views.load_tab, name='load_tabs')
+    path('tablature/', tabs.views.load_tab, name='load_tabs'),
+
+    # API
+    re_path(r'api/products', include("products.api.urls"))
 ]
+
+urlpatterns += [
+    re_path(r'(?P<path>.*)', FrontendRenderView.as_view(), name='home')
+]
+
 
 if bool(settings.DEBUG):
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
