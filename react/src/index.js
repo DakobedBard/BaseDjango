@@ -14,4 +14,12 @@ class Car extends React.Component {
     }
 }
 
+class GuitarTab extends React.Component{
+     render(){
+        return <h2> Hi, I am a car </h2>;
+    }
+}
+
+
+
 ReactDOM.render(<Car /> , document.getElementById('car'));
