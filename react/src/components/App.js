@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
+
+import {BrowserRouter as Router, Route } from 'react-router-dom'
+
+
 import logo from '../img/logo.svg';
 import '../css/App.css';
 
 import _ from "lodash";
 import ListItem from './ListItem.jsx';
-//class App extends Component {
-//  render() {
-//    return (
-//      <div className="App">
-//        <header className="App-header">
-//          <img src={logo} className="App-logo" alt="logo" />
-//          <h1 className="App-title">Welcome to React</h1>
-//        </header>
-//        <p className="App-intro">
-//          To get started, edit <code>src/components/App.js</code> and save to reload.
-//        </p>
-//      </div>
-//    );
-//  }
-//}
-
+<script src="https://unpkg.com/react-router-dom/umd/react-router-dom.min.js"></script>
 class DocumentList extends Component {
   constructor(props) {
     super(props);
@@ -38,12 +27,7 @@ class DocumentList extends Component {
           description: "Wash and dry the dishes",
           completed: false
         },
-        {
-          id: 3,
-          name: "Walk the Dog",
-          description: "Take dog around the block 2 times",
-          completed: true
-        }
+
       ]
     };
   }
@@ -61,26 +45,30 @@ class DocumentList extends Component {
     this.setState({ chores });
   };
 
-  render() {
-    const { chores } = this.state;
-    return (
-      <div className="App">
-        <h1>Chores</h1>
-        <ul>
-          {chores.map(chore => (
-            <ListItem
-              key={chore.id}
-              id={chore.id}
-              name={chore.name}
-              completed={chore.completed}
-              description={chore.description}
-              handleOnClick={this.handleOnClick}
-            />
-          ))}
-        </ul>
-      </div>
-    );
-  }
+//  render() {
+//    const { chores } = this.state;
+//    return (
+//      <div className="App">
+//        <h1>Chores</h1>
+//        <ul>
+//          {chores.map(chore => (
+//            <ListItem
+//              key={chore.id}
+//              id={chore.id}
+//              name={chore.name}
+//              completed={chore.completed}
+//              description={chore.description}
+//              handleOnClick={this.handleOnClick}
+//            />
+//          ))}
+//        </ul>
+//      </div>
+//    );
+//  }
+    render(){
+        return ( <h1> hey </h1> )
+        //return( <Router> <div> <Route exact path="/" component= { Home } /> </div> </Router>);
+    }
 }
 
 //export default App;

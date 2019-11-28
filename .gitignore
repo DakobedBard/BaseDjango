@@ -16,5 +16,8 @@ app/upload/migrations/*
 app/tab_generator/migrations/*
 .idea/*
 
+react/node_modules/*
+
+
 /venv/*
 
