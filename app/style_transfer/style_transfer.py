@@ -1,5 +1,5 @@
 from aws.ec2Client import ec2Client
-
+from upload.models import StyleTransferModel
 test_keras_install = '''#!/bin/bash
 cd /home/ubuntu
 sudo pip install librosa
@@ -47,6 +47,8 @@ class StyleTransfer:
         self.user = user
         self.image_id = image_document_id
         self._style_id = style_document_id
+        self.model = StyleTransferModel()
+
 
     def validate(self):
         '''

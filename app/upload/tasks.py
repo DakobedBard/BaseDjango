@@ -8,6 +8,8 @@ from aws.ec2Client import ec2Client
 from style_transfer.style_transfer import StyleTransfer
 User = get_user_model()
 
+from upload.models import StyleTransferModel
+
 @shared_task
 def celery_style_transfer(user, image_document, style_document):
     '''
@@ -23,6 +25,11 @@ def celery_style_transfer(user, image_document, style_document):
     print("I am in the celery method")
     style_transfer = StyleTransfer(user, image_document.pk, style_document.pk)
     style_transfer.launchEC2()
+
+    model = StyleTransferModel()
+    model.style_image_document_id =  style_transfer.style_document_id
+    model.base_image_document_id = style_transfer.image_document_id
+
 
 
 

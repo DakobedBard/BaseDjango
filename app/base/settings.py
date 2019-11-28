@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "tab_generator",
     "crispy_forms",
     "rest_framework",
-    "accounts"
+    "accounts",
+    "tabs",
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
