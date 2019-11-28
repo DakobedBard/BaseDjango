@@ -17,11 +17,7 @@ RUN apk add ffmpeg
 RUN apk add build-base python-dev py-pip jpeg-dev zlib-dev
 ENV LIBRARY_PATH=/lib:/usr/lib
 
-
-
 RUN pip install --upgrade pip
-
-
 
 COPY ./requirements.txt /usr/src/app/requirements.txt
 RUN pip install -r requirements.txt

@@ -43,15 +43,10 @@ urlpatterns = [
     path('style/', upload.views.style, name='style'),
 
     # Tab Generator Home
-    path('tabs/', tabs.views. )
+    path('tabs/', tabs.views.TabsView.as_view()),
 
     path('train_model/', upload.views.train_model, name='train_model'),
-
-
-
-
-
-
+    path('tablature/', tabs.views.load_tab, name='load_tabs')
 ]
 
 if bool(settings.DEBUG):

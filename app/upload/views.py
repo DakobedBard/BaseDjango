@@ -138,7 +138,6 @@ from mir.MIR import MIR
 
 def train_model(request, *args, **kwargs):
     '''
-
     :param request:
     :param args:
     :param kwargs:
@@ -147,8 +146,6 @@ def train_model(request, *args, **kwargs):
     This view will return the model.html template.  This page will allow the user to load a model from s3
 
     '''
-
-
     context = {}
     if request.method == "POST":
         mir = MIR(request.user, "heyward-audio-tabs")

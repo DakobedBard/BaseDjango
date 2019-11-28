@@ -12,6 +12,26 @@ from upload.tasks import celery_style_transfer
 from django import forms
 
 from django.views import View
+
+class ListAudioFilesView(View):
+    pass
+
+
+
+class TabsListView(View):
+    def get(self, request):
+        context = {}
+        return render(request, 'list_tabs.html', context)
+    def post(self, request):
+        context = {}
+        return render(request, 'list_tabs.html', context)
+
+
+
+
+
+
+
 class TabsView(View):
     '''
 
@@ -26,3 +46,12 @@ class TabsView(View):
         pass
     def post(self, request):
         pass
+
+
+
+
+
+
+def load_tab(request, *args, **kwargs):
+    context = {}
+    return render(request, "tabs.html", context)
