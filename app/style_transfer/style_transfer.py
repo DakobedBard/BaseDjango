@@ -79,13 +79,6 @@ class StyleTransfer:
         return True
 
 
-
-
-
-
-
-
-
     def returnImage(self):
         '''
         This might have to be an asynchronous call that I have to make ... It will have to wait for the EC2 instance to

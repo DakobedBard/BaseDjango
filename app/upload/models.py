@@ -31,14 +31,14 @@ class Spectogram(models.Model):
     audio_file_path = models.CharField(max_length=40)
 
 
+## I am trying to better understand model relationships so I'm going to be implementing some example code.
 
+class StyleTransferModel(models.Model):
+    description = models.CharField(max_length=30)
+    style_image_document = models.ForeignKey(Document, on_delete=models.CASCADE,related_name ='tyle_image_document')
+    base_image_document = models.ForeignKey(Document, on_delete=models.CASCADE,related_name ='base_image_document')
+    output_image_document = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='output_image_document', default=1)
+    style_image_title = models.CharField(max_length=20)
+    base_image_title = models.CharField(max_length=20)
+    output_image_title = models.CharField(max_length=30)
 
-
-
-
-#
-# class StyleTransfer(models.Model):
-#      style_image_s3Path = models.CharField(max_length=80)
-#      base_image = models.CharField(max_length=80)
-#      output_image = models.CharField(max_length=80)
-#
