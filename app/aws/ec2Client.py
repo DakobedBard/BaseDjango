@@ -3,6 +3,7 @@ from upload.models import EC2Instance
 
 import time
 
+from aws.s3Client import s3Client
 
 class ec2Client:
     '''
@@ -92,4 +93,22 @@ class ec2Client:
         ec2 = boto3.resource('ec2', region_name=self.REGION)
         ec2.instances.filter(InstanceIds=[instanceID]).stop()
 
+    def checkS3(self, bucket, object_name):
+        '''
+        Check the status of an S3 object
+        :param bucket:
+        :param object_name:
+        :return:
+        '''
 
+        s3 = s3Client('basedjango')
+        return s3.download(object_name)
+
+    def check_status(self):
+        '''
+        This method might be necessary if I want to query the instance to verify if it has completed the work that
+        has been sent to it.  I intend for this to be run in a while loop within the celery method
+
+        :return:
+        '''
+        pass
