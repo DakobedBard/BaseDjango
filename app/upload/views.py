@@ -126,7 +126,7 @@ def style(request, *args, **kwargs):
         style_document = s3.upload_file(style_url, style_url_string.split("/")[-1])
         context =  {"image_url": image_url, "style_url":style_url}
 
-        output_image = celery_style_transfer.delay()
+        # output_image = celery_style_transfer.delay()
 
         return render(request, "style_transfer.html", context)
 

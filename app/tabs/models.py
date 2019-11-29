@@ -1,5 +1,18 @@
 from django.db import models
 
+class GuitarTab(models.Model):
+    title = models.CharField(max_length=30)
+    audio_file_path = models.CharField(max_length=30)
+    bucket = models.CharField(max_length=30)
+    slug = models.SlugField(unique=True)
+    publish = models.DateField(auto_now=False, auto_now_add=False)
+    content = models.CharField(max_length=30, default="")
+
+    def __unicode__(self):
+        return self.title
+    def __str__(self):
+        return self.title
+
 
 class Tablature:
     '''

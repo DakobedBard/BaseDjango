@@ -11,6 +11,8 @@ from upload.forms import AudioFilesForm
 from upload.tasks import celery_style_transfer
 from django import forms
 
+from tabs.models import GuitarTab
+
 from django.views import View
 
 class ListAudioFilesView(View):
@@ -20,15 +22,20 @@ class ListAudioFilesView(View):
 
 class TabsListView(View):
     def get(self, request):
-        context = {}
-        return render(request, 'list_tabs.html', context)
+        context = {'posts':''}
+        return render(request, 'home.html' , context)
     def post(self, request):
         context = {}
-        return render(request, 'list_tabs.html', context)
+        return render(request, 'home.html', context)
 
 
+class CreateTabView(View):
+    model = GuitarTab
+    fields = ['title', 'content']
 
-
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 
