@@ -18,5 +18,9 @@ app/users/migrations*
 .idea/*
 
 react/node_modules/*
+
+app/tabs/migrations/*
+app/users/migrations/*
+app/products/migrations*
 /venv/*
 

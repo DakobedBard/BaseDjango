@@ -1,5 +1,10 @@
 from django.db import models
 
+class GuitarTab(models.Model):
+    title = models.CharField(max_length=30)
+    audio_file_path = models.CharField(max_length=30)
+    bucket = models.CharField(max_length=30)
+
 
 class Tablature:
     '''
