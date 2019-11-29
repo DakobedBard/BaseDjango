@@ -19,5 +19,9 @@ app/tab_generator/migrations/*
 react/node_modules/*
 
 
+app/users/migrations/*
+app/products/migrations*
+
+
 /venv/*
 
