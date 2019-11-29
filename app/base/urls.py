@@ -9,14 +9,15 @@ import tab_generator.views
 import tabs.views
 from users import views as user_views
 
-
+import blog.views
 from pages.views import FrontendRenderView
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("login/", accounts.views.login, name="login"),
-    path("home/", accounts.views.home, name ='home'),
+    # path("login/", accounts.views.login, name="login"),
+    # path("home/", accounts.views.home, name ='home'),
+    path("home", blog.views.home, name='home'),
     path('signup/', accounts.views.signup, name='signup'),
     path('accounts', include('django.contrib.auth.urls')),
     path('secret/', accounts.views.secret_page, name='account'),
@@ -56,7 +57,6 @@ urlpatterns = [
 
     # API
     re_path(r'api/products', include("products.api.urls")),
-
 
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
