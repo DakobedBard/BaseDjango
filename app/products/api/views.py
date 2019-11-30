@@ -3,9 +3,17 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 from products.models import Product
+from upload.models import Document
+
+from .serializers import ProductSerializer, DocumentSerializer
 
 
-from .serializers import ProductSerializer
+class DocumentListAPIView(generics.ListAPIView):
+    queryset = Document.objects.all()
+    serializer_class = DocumentSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
 
 class ProductListAPIView(generics.ListAPIView):
     queryset = Product.objects.all()

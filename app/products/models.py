@@ -6,6 +6,14 @@ def upload_product_image(instance, filename):
     id_ = Klass.objects.count()
     return f"products/{id_}/{filename}" # "products/{id_}/{filename}".format(id_=id_, filename=filename)
 
+from django.conf import settings
+from upload.models import Document
+
+class StyleTransferModel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=30)
+
+
 
 class Product(models.Model):
     title = models.CharField(max_length=120)

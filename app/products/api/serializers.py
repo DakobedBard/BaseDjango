@@ -10,3 +10,14 @@ class ProductSerializer(serializers.ModelSerializer):
             'description',
             'price'
         ]
+
+class DocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'uploaded_at',
+            's3Path',
+            'bucket',
+            'extension'
+        ]

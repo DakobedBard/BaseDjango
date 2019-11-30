@@ -1,9 +1,9 @@
 from django.db import models
-
+from django.conf import settings
 class Document(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
     s3Path = models.CharField(max_length=500, default='file.txt')
-    user = models.CharField(max_length=50,default="Charles")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bucket=models.CharField(max_length=50, default="basedjango")
     extension = models.CharField(max_length=50, default=".txt")
 
@@ -15,7 +15,7 @@ class EC2Instance(models.Model):
     instance_ID = models.CharField(max_length=30)
     instance_dns = models.CharField(max_length=80, default="")
     application = models.CharField(max_length=30)
-    user = models.CharField(max_length=50, default="BillyStrings@gmail.com")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 class Style(models.Model):
     style_image_s3Path = models.CharField(max_length=80)
