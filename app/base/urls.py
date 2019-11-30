@@ -11,6 +11,9 @@ from tabs.views import TabsListView, CreateTabView, newTab, TabCreateView, TabDe
 from pages.views import FrontendRenderView
 
 
+from pages.views import FrontendRenderView
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("login/", accounts.views.login, name="login"),
@@ -57,6 +60,15 @@ urlpatterns = [
     path('post/<int:pk>/', TabDetailView.as_view(), name='post-detail'),
 
 
+
+    path('train_model/', upload.views.train_model, name='train_model'),
+    path('tablature/', tabs.views.load_tab, name='load_tabs'),
+
+    # API
+    re_path(r'api/products', include("products.api.urls")),
+
+
+    re_path(r'api/tabs', include("tabs.api.urls"))
 
 ]
 #

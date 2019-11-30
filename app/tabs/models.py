@@ -14,6 +14,11 @@ class GuitarTab(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
+class GuitarTab(models.Model):
+    title = models.CharField(max_length=30)
+    audio_file_path = models.CharField(max_length=30)
+    bucket = models.CharField(max_length=30)
+
 
 class Tablature:
     '''

@@ -1,3 +1,4 @@
+
 from rest_framework import generics, mixins
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 # from products.models import Product
@@ -37,17 +38,3 @@ class StyleTransferListAPIView(mixins.CreateModelMixin, generics.ListAPIView):
 
 
 
-
-
-
-# class ProductListAPIView(generics.ListAPIView):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-#
-#
-# class ProductRetrieveAPIView(generics.RetrieveAPIView):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly]
-#     lookup_field = 'id'
