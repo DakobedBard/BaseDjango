@@ -48,7 +48,7 @@ urlpatterns = [
     # path('tablature/', tabs.views.load_tab, name='load_tabs'),
 
     # API
-    re_path(r'api/products', include("products.api.urls")),
+    re_path(r'api/documents', include("products.api.urls")),
 
     re_path(r'api/tabs', include("tabs.api.urls")),
 

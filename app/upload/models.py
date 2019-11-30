@@ -7,7 +7,8 @@ class Document(models.Model):
     bucket=models.CharField(max_length=50, default="basedjango")
     extension = models.CharField(max_length=50, default=".txt")
     def __str__(self):
-        return "Document-Model"
+        return str(self.user.username)
+
 
 class EC2Instance(models.Model):
     '''
@@ -32,13 +33,27 @@ class Spectogram(models.Model):
     annotation_file_path = models.CharField(max_length=40)
     audio_file_path = models.CharField(max_length=40)
 
-
 class StyleTransferModel(models.Model):
-    description = models.CharField(max_length=30)
-    style_image_document_id = models.ForeignKey(Document, on_delete=models.CASCADE,related_name ='tyle_image_document')
-    base_image_document_id = models.ForeignKey(Document, on_delete=models.CASCADE,related_name ='base_image_document')
-    output_image_document_d = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='output_image_document', )
-    style_image_title = models.CharField(max_length=20)
-    base_image_title = models.CharField(max_length=20)
-    output_image_title = models.CharField(max_length=30)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user+')
+    title = models.CharField(max_length=30)
+    description = models.CharField(max_length=200, default='')
+    base_image_name = models.CharField(max_length=50, default="base")
+    style_image_name = models.CharField(max_length=50, default ="stlye")
+    base_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='base-image+', default='')
+    style_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='style-image+', default='')
+    output_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='output-image+',default='')
 
+    def __str__(self):
+        return str(self.user.username)
+class StyleTransferRestModel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name = 'user+')
+    title = models.CharField(max_length=30)
+    description = models.CharField(max_length=200, default='')
+    base_image_name = models.CharField(max_length=50, default="base")
+    style_image_name = models.CharField(max_length=50, default ="stlye")
+    base_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='base-image+', default='')
+    style_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='style-image+', default='')
+    output_image = models.ForeignKey(Document, on_delete=models.CASCADE, related_name='output-image+',default='')
+
+    def __str__(self):
+        return str(self.user.username)
