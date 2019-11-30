@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 import accounts.views
 import upload.views
 import tab_generator.views
-from tabs.views import TabsListView, CreateTabView
+from tabs.views import TabsListView, CreateTabView, newTab, TabCreateView, TabDetailView
 
 from pages.views import FrontendRenderView
 
@@ -35,11 +35,6 @@ urlpatterns = [
     path('terminate/<instanceID>', upload.views.terminate, name='launch'),
     path('list_instances/', upload.views.list_instances, name='list_instances'),
 
-    # REST API paths
-
-    path('create_tab/', tab_generator.views.create_guitar_tab_view, name='create'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
     # S3 Audio Files..
     path('list_files/', upload.views.list, name='list_files'),
 
@@ -55,11 +50,12 @@ urlpatterns = [
     # API
     re_path(r'api/products', include("products.api.urls")),
 
-
     re_path(r'api/tabs', include("tabs.api.urls")),
 
     path('tabs_home', TabsListView.as_view(), name = 'tabs_home'),
-    path('tabs/new/', CreateTabView.as_view(), name='post-create'),
+    path('new_tab', TabCreateView.as_view(), name='tab-create'),
+    path('post/<int:pk>/', TabDetailView.as_view(), name='post-detail'),
+
 
 
 ]
