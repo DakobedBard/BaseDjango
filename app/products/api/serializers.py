@@ -1,12 +1,30 @@
 from rest_framework import serializers
-from products.models import Product
 
-class ProductSerializer(serializers.ModelSerializer):
+class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Document
         fields = [
             'id',
+            'uploaded_at',
+            's3Path',
+            'bucket',
+            'extension',
+            'user'
+        ]
+
+
+class StyleTransferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StyleTransferModel
+        fields = [
+            'pk',
+            'user',
             'title',
             'description',
-            'price'
+            'base_image_name',
+            'style_image_name',
+            'base_image',
+            'style_image',
+            'output_image'
         ]
+

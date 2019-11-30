@@ -1,15 +1,27 @@
 from django.shortcuts import render
-from django.core.files.storage import FileSystemStorage
-from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
-from aws.s3Client import s3Client
-from aws.ec2Client import ec2Client
-from upload.models import EC2Instance
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from upload.forms import AudioFilesForm
+from rest_framework.generics import ListAPIView
+from tabs.models import GuitarTab
+
+class GuitarTabListAPIView(ListAPIView):
+    queryset = GuitarTab.objects.all()
+
+
+
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
+
 
 from upload.tasks import celery_style_transfer
 from django import forms
+
+from tabs.models import GuitarTab
 
 from django.views import View
 
@@ -18,17 +30,36 @@ class ListAudioFilesView(View):
 
 
 
+def newTab(request):
+    context = {}
+    return render(request, "new_tab.html", context )
+
 class TabsListView(View):
     def get(self, request):
-        context = {}
-        return render(request, 'list_tabs.html', context)
+        context = {'posts':''}
+        return render(request, 'tabs.html' , context)
     def post(self, request):
         context = {}
-        return render(request, 'list_tabs.html', context)
+        return render(request, 'tabs.html', context)
+
+class TabCreateView(LoginRequiredMixin, CreateView):
+    model = GuitarTab
+    fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+class TabDetailView(DetailView):
+    model = GuitarTab
 
 
+class CreateTabView(View):
+    model = GuitarTab
+    fields = ['title', 'content']
 
-
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 
 
@@ -46,6 +77,7 @@ class TabsView(View):
         pass
     def post(self, request):
         pass
+
 
 
 
