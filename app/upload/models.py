@@ -6,6 +6,8 @@ class Document(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bucket=models.CharField(max_length=50, default="basedjango")
     extension = models.CharField(max_length=50, default=".txt")
+    def __str__(self):
+        return "Document-Model"
 
 class EC2Instance(models.Model):
     '''

@@ -36,15 +36,15 @@ services:
     depends_on:
       - rabbitmq
       - db
-  react:
-    build: ./react
-    command: ["npm", "start"]
-    container_name: react
-    volumes:
-      - ./react:/app/frontend
-      - node-modules:/app/frontend/node_modules
-    ports:
-      - "3000:3000"
+#  react:
+#    build: ./react
+#    command: ["npm", "start"]
+#    container_name: react
+#    volumes:
+#      - ./react:/app/frontend
+#      - node-modules:/app/frontend/node_modules
+#    ports:
+#      - "3000:3000"
 
 volumes:
   postgres_data:
